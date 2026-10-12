@@ -206,6 +206,13 @@ export class WebSpeechOutput implements SpeechOutput {
   private readonly keepAlive = new Set<SpeechSynthesisUtterance>();
   private unlocked = false;
 
+  constructor() {
+    // Chrome loads its voice list lazily; asking early means the first sentence gets the right voice.
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      window.speechSynthesis.getVoices();
+    }
+  }
+
   speak(text: string, options: SpeakOptions): Promise<SpeakResult> {
     return new Promise((resolve) => {
       const synth = window.speechSynthesis;

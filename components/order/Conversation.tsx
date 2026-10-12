@@ -2,8 +2,9 @@
 
 import { CAFE } from "@/lib/menu";
 import { SAMPLES } from "@/lib/samples";
-import type { CallSnapshot, Caption, LogEntry } from "@/lib/voice/session";
-import { CheckIcon, CrossIcon, PlayIcon } from "./icons";
+import type { CallSnapshot, Caption } from "@/lib/voice/session";
+import { PlayIcon } from "./icons";
+import { PlanCard, TapeLine } from "./Tape";
 
 interface ConversationProps {
   snapshot: CallSnapshot;
@@ -11,29 +12,6 @@ interface ConversationProps {
   placeholder: boolean;
   isLive: boolean;
   onPlay: (sampleId: string) => void;
-}
-
-/** One tool call as a receipt-style line. Also used in the order panel's tape. */
-export function TapeLine({ entry, fresh = false }: { entry: LogEntry; fresh?: boolean }) {
-  const colon = entry.summary.indexOf(":");
-  const verb = colon === -1 ? entry.summary : entry.summary.slice(0, colon);
-  const rest = colon === -1 ? "" : entry.summary.slice(colon + 1).trim();
-  return (
-    <div
-      className={`flex items-start gap-2 rounded-sm px-1.5 py-1 font-mono text-xs leading-5 ${fresh ? "land" : ""}`}
-    >
-      <span
-        className={`mt-0.5 inline-flex size-4 shrink-0 items-center justify-center ${entry.ok ? "text-success" : "text-danger"}`}
-      >
-        {entry.ok ? <CheckIcon className="size-3.5" /> : <CrossIcon className="size-3.5" />}
-        <span className="sr-only">{entry.ok ? "Done:" : "Refused by the register:"}</span>
-      </span>
-      <span className="min-w-0 [overflow-wrap:anywhere]">
-        <span className={entry.ok ? "text-fg" : "text-danger"}>{verb}</span>
-        {rest && <span className="text-muted">: {rest}</span>}
-      </span>
-    </div>
-  );
 }
 
 function AgentCaption({ caption }: { caption: Extract<Caption, { role: "agent" }> }) {
@@ -191,6 +169,7 @@ export function Conversation({ snapshot, placeholder, isLive, onPlay }: Conversa
           // On wide screens the tape sits beside the order. On a phone it is shown here, in place.
           <div key={caption.id} className="lg:hidden">
             <TapeLine entry={caption.entry} />
+            <PlanCard entry={caption.entry} />
           </div>
         );
       })}

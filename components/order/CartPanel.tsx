@@ -3,44 +3,8 @@
 import { useEffect, useRef } from "react";
 import { formatCents } from "@/lib/money";
 import type { PricedCart, Receipt } from "@/lib/order/engine";
-import type { CallSnapshot, LogEntry } from "@/lib/voice/session";
-import { TapeLine } from "./Conversation";
-import { CheckIcon } from "./icons";
-
-function PlanCard({ entry }: { entry: LogEntry }) {
-  const plan = entry.plan;
-  if (!plan) return null;
-  return (
-    <div className="my-1 rounded-md border border-border bg-bg p-2.5 text-xs">
-      <p className="font-medium">
-        Plan {plan.planId}: proposed by Claude Opus 5.5, checked and priced by the order engine
-      </p>
-      <ul className="mt-1.5 flex flex-col gap-0.5 font-mono">
-        {plan.lines.map((line, index) => (
-          <li key={index} className="flex justify-between gap-3">
-            <span className="min-w-0 [overflow-wrap:anywhere]">
-              {line.quantity} × {line.name}
-              {line.details.length > 0 ? `, ${line.details.join(", ")}` : ""}
-            </span>
-            <span className="shrink-0 tabular-nums">{line.price}</span>
-          </li>
-        ))}
-        <li className="mt-1 flex justify-between gap-3 border-t border-border pt-1 font-semibold">
-          <span>Total with tax{plan.budget ? ` (budget ${plan.budget})` : ""}</span>
-          <span className="tabular-nums">{plan.total}</span>
-        </li>
-      </ul>
-      <ul className="mt-2 flex flex-col gap-0.5 text-muted">
-        {plan.checks.map((check) => (
-          <li key={check} className="flex items-start gap-1.5">
-            <CheckIcon className="mt-0.5 size-3 shrink-0 text-success" />
-            <span>{check}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
+import type { CallSnapshot } from "@/lib/voice/session";
+import { PlanCard, TapeLine } from "./Tape";
 
 function Totals({ cart }: { cart: PricedCart }) {
   return (

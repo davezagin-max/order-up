@@ -95,8 +95,8 @@ export function OrderUp({ placeholder }: { placeholder: boolean }) {
             OPEN
           </span>
           <div className="min-w-0">
-            <h1 className="text-base leading-5 font-semibold">Order Up</h1>
-            <p className="truncate text-xs text-muted">
+            <h1 className="text-base leading-5 font-semibold whitespace-nowrap">Order Up</h1>
+            <p className="hidden truncate text-xs text-muted sm:block">
               Voice ordering at {CAFE.name}, a fictional cafe
             </p>
           </div>
@@ -106,9 +106,10 @@ export function OrderUp({ placeholder }: { placeholder: boolean }) {
             <button
               type="button"
               onClick={() => session.reset()}
+              aria-label="Start a new call"
               className="rounded-md border border-border px-2.5 py-1.5 text-sm hover:bg-surface"
             >
-              New call
+              New<span className="hidden sm:inline"> call</span>
             </button>
           )}
           <button

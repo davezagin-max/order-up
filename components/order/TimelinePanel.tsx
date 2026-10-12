@@ -71,22 +71,27 @@ function SampleStages({ timeline }: { timeline: TurnTimeline }) {
           </li>
         ))}
       </ol>
-      {timeline.placeholder || !timeline.recorded ? (
-        <p className="mt-3 rounded-md border border-dashed border-border px-2.5 py-2 text-xs leading-5 text-muted">
-          No numbers here on purpose. This sample call is a hand-written example, so nothing was
-          measured. On a live turn each stage shows its time in milliseconds after you stop talking.
-        </p>
-      ) : (
-        <p className="mt-3 rounded-md border border-dashed border-border px-2.5 py-2 text-xs leading-5 text-muted">
-          Recorded{timeline.recordedAt ? ` on ${timeline.recordedAt.slice(0, 10)}` : ""}, on the
-          server&apos;s clock:{" "}
-          {timeline.recorded.firstTextMs !== null
-            ? `first text after ${ms(timeline.recorded.firstTextMs)}, `
-            : ""}
-          whole turn in {ms(timeline.recorded.totalMs)}. Browser-side stages are only measured on a
-          live turn.
-        </p>
-      )}
+      <p className="mt-3 rounded-md border border-dashed border-border px-2.5 py-2 text-xs leading-5 text-muted">
+        {timeline.placeholder ? (
+          <>
+            No numbers here on purpose. This sample call is a hand-written example, so nothing was
+            measured. On a live turn each stage shows its time in milliseconds after you stop
+            talking.
+          </>
+        ) : timeline.recorded ? (
+          <>
+            Recorded{timeline.recordedAt ? ` on ${timeline.recordedAt.slice(0, 10)}` : ""}, on the
+            server&apos;s clock:{" "}
+            {timeline.recorded.firstTextMs !== null
+              ? `first text after ${ms(timeline.recorded.firstTextMs)}, `
+              : ""}
+            whole turn in {ms(timeline.recorded.totalMs)}. Browser-side stages are only measured on
+            a live turn.
+          </>
+        ) : (
+          <>No timing was stored with this turn. Browser-side stages are measured on a live turn.</>
+        )}
+      </p>
     </>
   );
 }

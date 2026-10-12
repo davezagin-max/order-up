@@ -53,7 +53,7 @@ function micCopy(args: { snapshot: CallSnapshot; isLive: boolean; canListen: boo
     if (snapshot.finished)
       return { label: "Sample call finished", hint: "That was the whole call." };
     return {
-      label: "Your voice needs a key",
+      label: "Voice needs a key",
       hint: "Sample calls play without one.",
       more: " Talking and typing use your own Anthropic key.",
     };
