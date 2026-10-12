@@ -56,9 +56,18 @@ export interface StreamRouteConfig<B, D, E> extends RouteConfig<B> {
     client: Anthropic;
     req: Request;
     emit: (event: E) => void;
+    /**
+     * Aborts when the visitor cancels the request or disconnects. Pass it to
+     * every model call and stop starting new ones, so an abandoned run stops
+     * spending the visitor's key.
+     */
+    signal: AbortSignal;
   }) => Promise<LiveResult<D>>;
-  /** Demo replay speed-up. 1 = real time. Default 4. */
-  replaySpeed?: number;
+  /**
+   * Demo replay speed-up. 1 = real time. Default 4. A function can choose per
+   * request; `Infinity` replays with no pacing at all.
+   */
+  replaySpeed?: number | ((body: B) => number);
 }
 
 const DEFAULT_MAX_BYTES = 64 * 1024;
@@ -217,12 +226,15 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export function streamRoute<B, D, E>(config: StreamRouteConfig<B, D, E>) {
   const gate = createGate(config);
-  const speed = config.replaySpeed ?? 4;
 
   return async function POST(req: Request): Promise<Response> {
     const gated = await gate(req);
     if (gated instanceof Response) return gated;
     const { body } = gated;
+    const speed =
+      typeof config.replaySpeed === "function"
+        ? config.replaySpeed(body)
+        : (config.replaySpeed ?? 4);
 
     let client: Anthropic | null;
     try {
@@ -236,6 +248,11 @@ export function streamRoute<B, D, E>(config: StreamRouteConfig<B, D, E>) {
 
     const encoder = new TextEncoder();
     let open = true;
+    // One signal for "the visitor is gone": the request was aborted, or the response
+    // stream was cancelled. Either way the live handler should stop calling the model.
+    const gone = new AbortController();
+    if (req.signal.aborted) gone.abort();
+    else req.signal.addEventListener("abort", () => gone.abort(), { once: true });
     const stream = new ReadableStream<Uint8Array>({
       async start(controller) {
         // Once the visitor disconnects, enqueue throws. Writes become no-ops instead, so a
@@ -260,7 +277,9 @@ export function streamRoute<B, D, E>(config: StreamRouteConfig<B, D, E>) {
             });
             let clock = 0;
             for (const { at, event } of fixture.events ?? []) {
-              await sleep(Math.min(Math.max(at - clock, 0) / speed, 1500));
+              if (!open) break;
+              const pause = Math.min(Math.max(at - clock, 0) / speed, 1500);
+              if (pause > 0) await sleep(pause);
               clock = at;
               send({ type: "event", event });
             }
@@ -273,12 +292,15 @@ export function streamRoute<B, D, E>(config: StreamRouteConfig<B, D, E>) {
               body,
               client,
               req,
+              signal: gone.signal,
               emit: (event) => {
                 events.push({ at: Date.now() - started, event });
                 send({ type: "event", event });
               },
             });
-            if ("refusal" in result) {
+            if (gone.signal.aborted) {
+              // Nobody is listening and the run was cut short: do not record it.
+            } else if ("refusal" in result) {
               send({
                 type: "error",
                 error: { kind: "refusal", message: refusalMessage(result.refusal) },
@@ -318,6 +340,7 @@ export function streamRoute<B, D, E>(config: StreamRouteConfig<B, D, E>) {
       },
       cancel() {
         open = false;
+        gone.abort();
       },
     });
     return new Response(stream, { headers: SSE_HEADERS });
