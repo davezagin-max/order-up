@@ -45,23 +45,25 @@ export type CategoryId = (typeof CATEGORIES)[number]["id"];
  */
 export interface Component {
   name: string;
+  /** Shorter form used in front of an item name: "chicken burrito", not "grilled chicken burrito". */
+  lead?: string;
   allergens: readonly Allergen[];
   meat?: true;
 }
 
 export const COMPONENTS = {
   // Proteins
-  chicken: { name: "grilled chicken", allergens: [], meat: true },
+  chicken: { name: "grilled chicken", lead: "chicken", allergens: [], meat: true },
   steak: { name: "steak", allergens: [], meat: true },
   carnitas: { name: "carnitas", allergens: [], meat: true },
   barbacoa: { name: "barbacoa", allergens: [], meat: true },
   sofritas: { name: "sofritas", allergens: ["soy"] },
-  veggies: { name: "fajita veggie", allergens: [] },
+  veggies: { name: "fajita veggies", lead: "veggie", allergens: [] },
   // Breakfast fillings
   bacon: { name: "bacon", allergens: [], meat: true },
   chorizo: { name: "chorizo", allergens: [], meat: true },
   sausage: { name: "sausage", allergens: [], meat: true },
-  potato: { name: "potato and peppers", allergens: [] },
+  potato: { name: "potato and peppers", lead: "potato", allergens: [] },
   // Tortillas
   corn: { name: "corn tortillas", allergens: [] },
   flour: { name: "flour tortillas", allergens: ["gluten"] },
@@ -635,6 +637,13 @@ export function isSize(id: string): id is SizeId {
 
 export function componentName(id: string): string {
   return isComponent(id) ? COMPONENTS[id].name : id;
+}
+
+/** The form that goes in front of an item name. */
+export function leadName(id: string): string {
+  if (!isComponent(id)) return id;
+  const component: Component = COMPONENTS[id];
+  return component.lead ?? component.name;
 }
 
 export function sizesOf(item: MenuItem): SizeId[] {

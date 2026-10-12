@@ -201,7 +201,7 @@ describe("kitchen updates", () => {
       results: [],
       texts: ["and a horchata"],
       notes: [
-        "Kitchen update from the staff. Carnitas just ran out. It is in the order on line L1 (regular carnitas burrito). Tell the customer now, offer something that is in stock, and change or remove that line. In stock instead: grilled chicken, steak, barbacoa, sofritas and fajita veggie.",
+        "Kitchen update from the staff. Carnitas just ran out. It is in the order on line L1 (regular carnitas burrito). Tell the customer now, offer something that is in stock, and change or remove that line. In stock instead: grilled chicken, steak, barbacoa, sofritas and fajita veggies.",
       ],
     });
     expect(priceCart(replayed.state).lines[0].issue).toBe("carnitas is out of stock");

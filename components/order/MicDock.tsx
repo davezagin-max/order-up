@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useState, type FormEvent } from "react";
+import { CostMeter } from "@/components/kit/CostMeter";
 import { CALL_LIMITS } from "@/lib/order/history";
 import type { SpeechSupport } from "@/lib/speech/web";
 import type { CallSession, CallSnapshot } from "@/lib/voice/session";
@@ -263,6 +264,11 @@ export function MicDock({ session, snapshot, support, isLive, onAddKey, onPlay }
             <SendIcon className="size-4" />
           </button>
         </form>
+      )}
+
+      {/* What the last live turn cost, right where the visitor acts. The timeline has the breakdown. */}
+      {isLive && snapshot.timeline?.source === "live" && (
+        <CostMeter meta={snapshot.timeline.meta} />
       )}
 
       <p className="text-xs leading-5 text-muted">

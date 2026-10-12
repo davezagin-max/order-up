@@ -8,6 +8,7 @@
  */
 import {
   ADD_ONS,
+  ALLERGENS,
   ALLERGEN_LABEL,
   CAFE,
   CATEGORIES,
@@ -18,11 +19,12 @@ import {
   MENU,
   componentName,
   sizesOf,
+  type Allergen,
   type ComponentId,
   type MenuItem,
 } from "../menu";
 import { formatCents } from "../money";
-import { DIET_NEEDS, meetsNeed, traitsOf, type LineSpec } from "./engine";
+import { DIET_NEEDS, meetsNeed, traitsOf } from "./engine";
 
 function priceText(item: MenuItem): string {
   if (typeof item.price === "number") return formatCents(item.price);
@@ -32,30 +34,27 @@ function priceText(item: MenuItem): string {
     .join(", ");
 }
 
-/** Dietary facts for the item as it comes, with its first option in each required choice. */
+/**
+ * Where each allergen in an item comes from, before any choices: always in
+ * it, or only in ingredients that can be left off.
+ */
 function dietLine(item: MenuItem): string {
-  const spec: LineSpec = {
-    itemId: item.id,
-    size: item.defaultSize ?? null,
-    choices: {},
-    addOns: [],
-    removals: [],
-    quantity: 1,
-  };
-  const traits = traitsOf(spec);
-  const contains = traits.allergens.map((allergen) => ALLERGEN_LABEL[allergen]);
-  const removable = item.removable
-    .filter((id) => COMPONENTS[id as ComponentId].allergens.length > 0)
-    .map(
-      (id) =>
-        `${id} (${COMPONENTS[id as ComponentId].allergens.map((allergen) => ALLERGEN_LABEL[allergen]).join(", ")})`,
+  const always = new Set<Allergen>(item.base.allergens);
+  const parts: string[] = item.base.allergens.map(
+    (allergen) => `${ALLERGEN_LABEL[allergen]} (always)`,
+  );
+  for (const allergen of ALLERGENS) {
+    if (always.has(allergen)) continue;
+    const sources = item.removable.filter((id) =>
+      (COMPONENTS[id].allergens as readonly Allergen[]).includes(allergen),
     );
-  const parts = [
-    `before choices it contains ${contains.length ? contains.join(", ") : "none of the tracked allergens"}`,
-    traits.meat ? "always contains meat" : null,
-    removable.length ? `leaving off ${removable.join(" or ")} removes that allergen` : null,
-  ].filter(Boolean);
-  return parts.join("; ");
+    if (sources.length === 0) continue;
+    parts.push(
+      `${ALLERGEN_LABEL[allergen]} (from ${sources.join(" and ")}; gone if ${sources.length > 1 ? "all of those are" : "that is"} left off)`,
+    );
+  }
+  const contains = parts.length ? parts.join(", ") : "none of the tracked allergens";
+  return `before choices and add-ons it contains ${contains}${item.base.meat ? "; always contains meat" : ""}`;
 }
 
 function itemBlock(item: MenuItem): string {

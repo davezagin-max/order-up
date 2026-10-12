@@ -26,6 +26,7 @@ import {
   isGroup,
   isSize,
   isStockable,
+  leadName,
   sizesOf,
   stockName,
   type Allergen,
@@ -159,7 +160,7 @@ export function lineName(spec: LineSpec): string {
   const lead = menuItem.lead ? spec.choices[menuItem.lead] : undefined;
   const head = [
     sizesOf(menuItem).length > 0 ? (spec.size ?? menuItem.defaultSize) : null,
-    lead ? componentName(lead) : null,
+    lead ? leadName(lead) : null,
     menuItem.name.toLowerCase(),
   ]
     .filter(Boolean)

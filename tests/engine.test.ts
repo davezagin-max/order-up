@@ -212,7 +212,7 @@ describe("adding items", () => {
       quantity: 1,
     });
     expect(lineSummary(a.state.lines[0])).toBe(
-      "grilled chicken street tacos on corn tortillas, no onions, no pico de gallo, +guacamole, +queso",
+      "chicken street tacos on corn tortillas, no onions, no pico de gallo, +guacamole, +queso",
     );
   });
 });
@@ -241,14 +241,14 @@ describe("changing and removing lines", () => {
     expect(outcomes[1].ok).toBe(true);
     expect(cart.lines[0]).toMatchObject({
       id: "L1",
-      name: "large grilled chicken burrito",
+      name: "large chicken burrito",
       details: ["no cheese", "+queso"],
       quantity: 2,
       unitCents: 1200 + 175,
       totalCents: 2 * (1200 + 175),
     });
     expect(outcomes[1].summary).toBe(
-      "changed: regular carnitas burrito, no onions, +guacamole → 2 × large grilled chicken burrito, no cheese, +queso",
+      "changed: regular carnitas burrito, no onions, +guacamole → 2 × large chicken burrito, no cheese, +queso",
     );
   });
 
@@ -439,7 +439,7 @@ describe("kitchen stock", () => {
         name: "carnitas",
         inStock: false,
         affected: [{ lineId: "L1", name: "regular carnitas burrito" }],
-        alternatives: ["grilled chicken", "steak", "barbacoa", "sofritas", "fajita veggie"],
+        alternatives: ["grilled chicken", "steak", "barbacoa", "sofritas", "fajita veggies"],
       },
     ]);
     expect(priceCart(state).lines[0].issue).toBe("carnitas is out of stock");
