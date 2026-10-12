@@ -1,22 +1,15 @@
-import { DemoBanner } from "@/components/kit/DemoBanner";
-import { ThemeToggle } from "@/components/kit/ThemeToggle";
-import { ExampleDemo } from "./ExampleDemo";
+import fixtures from "@/fixtures/turn.json";
+import { OrderUp } from "@/components/order/OrderUp";
 
-/** Starter page. Replace with the project's real UI; it shows the kit wired end to end. */
+/**
+ * The fixtures say for themselves whether they are hand-written samples or
+ * recorded runs. Every label in the UI that describes the demo follows this
+ * flag, so recording real runs changes the wording without touching the code.
+ */
+const placeholder = Object.values(fixtures as Record<string, { placeholder: boolean }>).some(
+  (fixture) => fixture.placeholder,
+);
+
 export default function Home() {
-  return (
-    <>
-      <DemoBanner placeholder />
-      <header className="flex items-center justify-between border-b border-border px-4 py-3">
-        <h1 className="text-base font-semibold">Starter</h1>
-        <ThemeToggle />
-      </header>
-      <main id="main" className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-4 py-8">
-        <ExampleDemo />
-      </main>
-      <footer className="border-t border-border px-4 py-4 text-center text-xs text-muted">
-        Built with Claude Code and Claude Opus 5.5.
-      </footer>
-    </>
-  );
+  return <OrderUp placeholder={placeholder} />;
 }

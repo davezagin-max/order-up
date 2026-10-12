@@ -22,6 +22,12 @@ export interface SpeechOutput {
   speak(text: string, options: SpeakOptions): Promise<SpeakResult>;
   /** Stops at once. An utterance in progress resolves as `cancelled`. */
   cancel(): void;
+  /**
+   * Called inside a tap or key press, before any reply exists. Browsers that
+   * only allow speech started by a user gesture are primed here, so a reply
+   * that arrives a second later is still allowed to speak.
+   */
+  unlock?(): void;
 }
 
 export type ListenError = "denied" | "no-microphone" | "network" | "unsupported" | "failed";

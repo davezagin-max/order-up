@@ -1,35 +1,91 @@
 {
+  "port": 3225,
   "shots": [
     {
-      "name": "hero",
-      "path": "/",
-      "theme": "light",
-      "viewport": "desktop",
-      "actions": [{ "click": "text=a powder day in the Wasatch" }, { "waitFor": "figure" }]
-    },
-    {
-      "name": "hero-dark",
+      "name": "first-screen",
       "path": "/",
       "theme": "dark",
       "viewport": "desktop",
-      "actions": [{ "click": "text=a powder day in the Wasatch" }, { "waitFor": "figure" }]
+      "actions": [{ "wait": 300 }]
+    },
+    {
+      "name": "hero",
+      "path": "/",
+      "theme": "dark",
+      "viewport": "desktop",
+      "actions": [
+        { "click": "button[aria-label^='Sound is on']" },
+        { "click": "text=Play a sample call" },
+        { "waitFor": "text=Counter Combo" },
+        { "wait": 2600 }
+      ]
+    },
+    {
+      "name": "hero-light",
+      "path": "/",
+      "theme": "light",
+      "viewport": "desktop",
+      "actions": [
+        { "click": "button[aria-label^='Sound is on']" },
+        { "click": "text=Play a sample call" },
+        { "waitFor": "text=Counter Combo" },
+        { "wait": 2600 }
+      ]
+    },
+    {
+      "name": "group-plan",
+      "path": "/",
+      "theme": "dark",
+      "viewport": "desktop",
+      "actions": [
+        { "click": "button[aria-label^='Sound is on']" },
+        { "click": "text=A pushy customer, then a group order" },
+        { "click": "text=Skip to end" },
+        { "waitFor": "text=Receipt" },
+        { "wait": 500 }
+      ]
     },
     {
       "name": "mobile",
       "path": "/",
       "theme": "dark",
       "viewport": "mobile",
-      "actions": [{ "click": "text=the first drop in a house set" }, { "waitFor": "figure" }]
+      "actions": [{ "wait": 300 }]
+    },
+    {
+      "name": "mobile-call",
+      "path": "/",
+      "theme": "dark",
+      "viewport": "mobile",
+      "actions": [
+        { "click": "button[aria-label^='Sound is on']" },
+        { "click": "text=Play a sample call" },
+        { "wait": 9000 }
+      ]
+    },
+    {
+      "name": "mobile-order",
+      "path": "/",
+      "theme": "dark",
+      "viewport": "mobile",
+      "actions": [
+        { "click": "button[aria-label^='Sound is on']" },
+        { "click": "text=Play a sample call" },
+        { "click": "text=Skip to end" },
+        { "wait": 1200 },
+        { "click": "button[aria-controls='order-panels']" },
+        { "wait": 400 }
+      ]
     }
   ],
   "gif": {
     "path": "/",
     "theme": "dark",
     "actions": [
-      { "wait": 500 },
-      { "click": "text=a powder day in the Wasatch" },
-      { "waitFor": "figure" },
-      { "wait": 1200 }
+      { "wait": 600 },
+      { "click": "button[aria-label^='Sound is on']" },
+      { "click": "text=Play a sample call" },
+      { "wait": 15000 }
     ]
   }
 }

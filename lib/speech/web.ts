@@ -204,6 +204,7 @@ export class WebSpeechOutput implements SpeechOutput {
   private current: { settle: (result: SpeakResult) => void } | null = null;
   // Chrome can drop an utterance's events if it is garbage collected mid-speech.
   private readonly keepAlive = new Set<SpeechSynthesisUtterance>();
+  private unlocked = false;
 
   speak(text: string, options: SpeakOptions): Promise<SpeakResult> {
     return new Promise((resolve) => {
@@ -265,6 +266,19 @@ export class WebSpeechOutput implements SpeechOutput {
     this.current = null;
     window.speechSynthesis.cancel();
     current?.settle("cancelled");
+  }
+
+  unlock(): void {
+    if (this.unlocked) return;
+    this.unlocked = true;
+    try {
+      // A silent utterance inside the gesture marks speech as user-initiated.
+      const primer = new SpeechSynthesisUtterance(" ");
+      primer.volume = 0;
+      window.speechSynthesis.speak(primer);
+    } catch {
+      // Speech will be attempted anyway; a failure there falls back to captions.
+    }
   }
 
   private applyVoice(utterance: SpeechSynthesisUtterance, voice: Voice): void {

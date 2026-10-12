@@ -161,8 +161,8 @@ describe("a spoken turn", () => {
     expect(snapshot.log).toEqual([
       { id: "toolu_s1_1", name: "add_item", ok: true, summary: "added: regular carnitas burrito" },
     ]);
-    expect(snapshot.captions.map((caption) => caption.role)).toEqual(["customer", "agent"]);
-    const agent = snapshot.captions[1];
+    expect(snapshot.captions.map((caption) => caption.role)).toEqual(["customer", "tool", "agent"]);
+    const agent = snapshot.captions[2];
     expect(agent.role === "agent" && agent.sentences.map((s) => [s.text, s.status])).toEqual([
       ["One carnitas burrito at $9.50.", "spoken"],
       ["Anything else?", "spoken"],
@@ -277,7 +277,7 @@ describe("barge-in and cancellation", () => {
     expect(output.cancels).toBeGreaterThanOrEqual(1);
     expect(output.current).toBeUndefined();
     expect(input.listening).toBe(true);
-    const agent = cut.captions[1];
+    const agent = cut.captions[2];
     expect(agent.role === "agent" && agent.cutOff).toBe(true);
     expect(agent.role === "agent" && agent.sentences.map((s) => s.status)).toEqual([
       "dropped",
@@ -361,6 +361,7 @@ describe("barge-in and cancellation", () => {
     // The cart is whatever the transcript says, and the transcript has no finished round.
     expect(stopped.cart.itemCount).toBe(0);
     expect(stopped.log).toEqual([]);
+    expect(stopped.captions.map((caption) => caption.role)).toEqual(["customer"]);
 
     session.submitText("never mind, tacos");
     expect(calls[1].body.interrupted).toBe(true);
@@ -483,6 +484,7 @@ describe("demo mode and the kitchen panel", () => {
     expect(after.cart.lines[0].issue).toBe("carnitas is out of stock");
     expect(after.captions.map((caption) => caption.role)).toEqual([
       "customer",
+      "tool",
       "agent",
       "customer",
       "kitchen",
@@ -492,6 +494,73 @@ describe("demo mode and the kitchen panel", () => {
     session.toggleStock("carnitas"); // back in stock
     expect(session.getSnapshot().outOfStock).toEqual([]);
     expect(session.getSnapshot().pendingKitchen).toEqual([{ id: "carnitas", inStock: true }]);
+  });
+
+  it("never continues a sample call as a live one: the visitor's own call starts clean", async () => {
+    // Stands in for the route replaying a four-turn sample that ends in a confirmed order.
+    const sampleRounds = [
+      [
+        [
+          { type: "tool_use", id: "s1", name: "add_item", input: burrito.input },
+          { type: "tool_use", id: "s2", name: "set_pickup_name", input: { name: "Dave" } },
+          { type: "tool_use", id: "s3", name: "review_order", input: {} },
+        ],
+        [{ type: "text", text: "One carnitas burrito for Dave. Right?" }],
+      ],
+      [
+        [{ type: "tool_use", id: "s4", name: "confirm_order", input: {} }],
+        [{ type: "text", text: "Done." }],
+      ],
+      [[{ type: "text", text: "Bye." }]],
+      [[{ type: "text", text: "Bye." }]],
+    ];
+    const live = pipelineSend([[{ say: "Hello. What can I get you?" }]]);
+    const demoBodies: TurnBody[] = [];
+    const send: SendTurn = async (body, apiKey, handlers, signal) => {
+      if (!body.demoId) return live.send(body, apiKey, handlers, signal);
+      demoBodies.push(body);
+      expect(apiKey).toBeNull();
+      const assistant = sampleRounds[demoBodies.length - 1];
+      return {
+        ok: true,
+        data: {
+          assistant,
+          plans: {},
+          cart: cartAfterBurrito,
+          receipt: null,
+          timing: null,
+          models: [],
+          unbackedAmounts: [],
+        },
+        meta: { ...liveMeta, mode: "demo", placeholder: true, usage: ZERO_USAGE, costUsd: 0 },
+      };
+    };
+    const { session } = makeSession(send);
+    await session.playSample("quick");
+    expect(demoBodies.map((body) => body.demoId)).toEqual([
+      "quick-1",
+      "quick-2",
+      "quick-3",
+      "quick-4",
+    ]);
+    expect(session.getSnapshot()).toMatchObject({
+      origin: "sample",
+      finished: "quick",
+      sampleId: "quick",
+    });
+    expect(session.getSnapshot().receipt?.confirmed).toBe(true);
+    expect(session.getSnapshot().spend.turns).toBe(0); // replays cost nothing
+
+    // With a key, the kitchen and the text box still work after a sample: they start a new call.
+    session.toggleStock("carnitas");
+    expect(session.getSnapshot()).toMatchObject({ origin: "none", captions: [], receipt: null });
+    session.submitText("hi");
+    await settle();
+    expect(live.bodies).toEqual([
+      { turns: [], text: "hi", kitchen: [{ id: "carnitas", inStock: false }], interrupted: false },
+    ]);
+    expect(live.keys).toEqual(["sk-ant-test-0123456789abcdef"]);
+    expect(session.getSnapshot().origin).toBe("live");
   });
 
   it("starts a clean call on reset", async () => {

@@ -1,0 +1,181 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import { formatCents } from "@/lib/money";
+import type { PricedCart, Receipt } from "@/lib/order/engine";
+import type { CallSnapshot, LogEntry } from "@/lib/voice/session";
+import { TapeLine } from "./Conversation";
+import { CheckIcon } from "./icons";
+
+function PlanCard({ entry }: { entry: LogEntry }) {
+  const plan = entry.plan;
+  if (!plan) return null;
+  return (
+    <div className="my-1 rounded-md border border-border bg-bg p-2.5 text-xs">
+      <p className="font-medium">
+        Plan {plan.planId}: proposed by Claude Opus 5.5, checked and priced by the order engine
+      </p>
+      <ul className="mt-1.5 flex flex-col gap-0.5 font-mono">
+        {plan.lines.map((line, index) => (
+          <li key={index} className="flex justify-between gap-3">
+            <span className="min-w-0 [overflow-wrap:anywhere]">
+              {line.quantity} × {line.name}
+              {line.details.length > 0 ? `, ${line.details.join(", ")}` : ""}
+            </span>
+            <span className="shrink-0 tabular-nums">{line.price}</span>
+          </li>
+        ))}
+        <li className="mt-1 flex justify-between gap-3 border-t border-border pt-1 font-semibold">
+          <span>Total with tax{plan.budget ? ` (budget ${plan.budget})` : ""}</span>
+          <span className="tabular-nums">{plan.total}</span>
+        </li>
+      </ul>
+      <ul className="mt-2 flex flex-col gap-0.5 text-muted">
+        {plan.checks.map((check) => (
+          <li key={check} className="flex items-start gap-1.5">
+            <CheckIcon className="mt-0.5 size-3 shrink-0 text-success" />
+            <span>{check}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function Totals({ cart }: { cart: PricedCart }) {
+  return (
+    <dl className="flex flex-col gap-1 border-t border-border pt-3 text-sm">
+      <div className="flex justify-between">
+        <dt className="text-muted">Subtotal</dt>
+        <dd className="tabular-nums">{formatCents(cart.subtotalCents)}</dd>
+      </div>
+      {cart.combos.map((combo) => (
+        <div key={combo.id} className="flex justify-between text-success">
+          <dt>
+            {combo.count > 1 ? `${combo.count} × ` : ""}
+            {combo.name}
+          </dt>
+          <dd className="tabular-nums">{formatCents(-combo.savingsCents)}</dd>
+        </div>
+      ))}
+      <div className="flex justify-between">
+        <dt className="text-muted">Tax</dt>
+        <dd className="tabular-nums">{formatCents(cart.taxCents)}</dd>
+      </div>
+      <div className="mt-1 flex items-baseline justify-between">
+        <dt className="text-base font-semibold">Total</dt>
+        <dd className="text-2xl font-semibold tabular-nums">{formatCents(cart.totalCents)}</dd>
+      </div>
+    </dl>
+  );
+}
+
+function ReceiptNote({ receipt }: { receipt: Receipt }) {
+  return (
+    <div className="rounded-lg border border-accent bg-bg p-3 text-sm">
+      <p className="font-semibold">
+        Order {receipt.orderNumber} placed for {receipt.pickupName}
+      </p>
+      <p className="mt-0.5 text-muted">
+        Ready in about {receipt.readyInMinutes} minutes, according to the order engine. This is a
+        demo: no payment was taken and nothing is being cooked.
+      </p>
+    </div>
+  );
+}
+
+export function CartPanel({ snapshot }: { snapshot: CallSnapshot }) {
+  const { cart, receipt, log } = snapshot;
+  const tapeRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const tape = tapeRef.current;
+    if (tape) tape.scrollTop = tape.scrollHeight;
+  }, [log.length]);
+
+  return (
+    <section
+      aria-labelledby="order-heading"
+      className="rounded-xl border border-border bg-surface p-4"
+    >
+      <div className="mb-3 flex items-baseline justify-between gap-3">
+        <h2 id="order-heading" className="text-base font-semibold">
+          {receipt ? "Receipt" : "Order"}
+        </h2>
+        <p className="text-sm text-muted">
+          {cart.pickupName ? `For ${cart.pickupName}` : "No pickup name yet"}
+        </p>
+      </div>
+
+      {receipt && (
+        <div className="mb-3">
+          <ReceiptNote receipt={receipt} />
+        </div>
+      )}
+
+      {cart.lines.length === 0 ? (
+        <p className="rounded-lg border border-dashed border-border px-3 py-6 text-center text-sm text-muted">
+          Nothing rung up yet. Lines appear here the moment the agent&apos;s tool call passes the
+          order engine.
+        </p>
+      ) : (
+        <ul className="mb-3 flex flex-col">
+          {cart.lines.map((line) => (
+            <li
+              key={`${line.id}-${line.quantity}-${line.name}-${line.details.join()}`}
+              className="land -mx-1.5 rounded-sm px-1.5 py-1.5"
+            >
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="min-w-0 text-sm font-medium [overflow-wrap:anywhere]">
+                  {line.quantity > 1 && <span className="text-muted">{line.quantity} × </span>}
+                  {line.name}
+                </p>
+                <p className="shrink-0 text-sm tabular-nums">{formatCents(line.totalCents)}</p>
+              </div>
+              {line.details.length > 0 && (
+                <p className="text-xs text-muted">{line.details.join(", ")}</p>
+              )}
+              {line.issue && (
+                <p className="mt-0.5 text-xs font-medium text-danger">
+                  Cannot be made: {line.issue}. The register will not confirm until it is changed.
+                </p>
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {cart.lines.length > 0 && <Totals cart={cart} />}
+
+      <div className="mt-4 hidden lg:block">
+        <h3 className="mb-1 text-xs font-medium tracking-wide text-muted uppercase">
+          Register tape: every tool call
+        </h3>
+        <div
+          ref={tapeRef}
+          role="log"
+          aria-label="Tool calls"
+          tabIndex={0}
+          className="max-h-64 overflow-y-auto rounded-lg border border-border bg-bg p-1.5"
+        >
+          {log.length === 0 ? (
+            <p className="px-1.5 py-1 font-mono text-xs text-muted">no calls yet</p>
+          ) : (
+            log.map((entry, index) => (
+              <div key={entry.id}>
+                <TapeLine entry={entry} fresh={index === log.length - 1} />
+                <PlanCard entry={entry} />
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+
+      <p className="mt-3 text-xs leading-5 text-muted">
+        Every price here is computed by the order engine from the menu. The agent can add, change,
+        and remove menu items, set a name, read back, and confirm. It has no tool that sets a price
+        or applies a discount.
+      </p>
+    </section>
+  );
+}

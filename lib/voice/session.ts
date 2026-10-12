@@ -52,7 +52,15 @@ export interface CaptionSentence {
 }
 
 export type Caption =
-  | { id: string; role: "customer"; text: string; scripted: boolean; speaking: boolean }
+  | {
+      id: string;
+      role: "customer";
+      text: string;
+      scripted: boolean;
+      speaking: boolean;
+      /** The turn failed, so the agent never heard this. */
+      unanswered?: boolean;
+    }
   | {
       id: string;
       role: "agent";
@@ -62,7 +70,9 @@ export type Caption =
       /** The customer cut this reply off. */
       cutOff: boolean;
     }
-  | { id: string; role: "kitchen"; effects: KitchenEffect[] };
+  | { id: string; role: "kitchen"; effects: KitchenEffect[] }
+  /** A tool call, shown in the conversation where it happened. */
+  | { id: string; role: "tool"; entry: LogEntry };
 
 export interface LogEntry {
   id: string;
@@ -121,6 +131,8 @@ export interface CallSnapshot {
   origin: "none" | "sample" | "live";
   /** The sample call that just finished playing. */
   finished: string | null;
+  /** The sample call the conversation on screen came from, playing or not. */
+  sampleId: string | null;
   error: CallError | null;
   soundOn: boolean;
   /** The browser has speech synthesis but it produced no sound. */
@@ -169,6 +181,10 @@ interface Flight {
   committed: boolean;
   /** The first sentence of this turn has started playing. */
   speechStarted: boolean;
+  /** Tool calls shown for this turn, so ones that never made the transcript can be taken back. */
+  toolIds: string[];
+  /** The caption holding the customer's words for this turn. */
+  customerCaptionId: string | null;
 }
 
 interface SampleRun {
@@ -194,6 +210,7 @@ export class CallSession {
   private error: CallError | null = null;
   private origin: CallSnapshot["origin"] = "none";
   private finished: string | null = null;
+  private sampleId: string | null = null;
   private soundOn = true;
   private audioFailed = false;
   private spend = { costUsd: 0, turns: 0 };
@@ -258,6 +275,7 @@ export class CallSession {
       sample: this.sampleView,
       origin: this.origin,
       finished: this.finished,
+      sampleId: this.sampleId,
       error: this.error,
       soundOn: this.soundOn,
       audioFailed: this.audioFailed,
@@ -280,13 +298,19 @@ export class CallSession {
   /** The microphone was tapped: start listening, finish listening, or barge in. */
   micTap(): void {
     if (!this.readyForLive()) return;
+    this.unlockAudio();
     this.dispatch({ type: "MIC" });
   }
 
   /** Space went down: push to talk. Barges in if the agent is replying. */
   micDown(): void {
     if (this.voice.phase === "listening" || !this.readyForLive()) return;
+    this.unlockAudio();
     this.dispatch({ type: "MIC" });
+  }
+
+  private unlockAudio(): void {
+    if (this.soundOn && !this.audioFailed) this.deps.audible?.unlock?.();
   }
 
   /** Space came up: the customer is done talking. */
@@ -296,6 +320,7 @@ export class CallSession {
 
   submitText(text: string): void {
     if (!text.trim() || !this.readyForLive()) return;
+    this.unlockAudio();
     this.dispatch({ type: "SUBMIT", text });
   }
 
@@ -326,8 +351,10 @@ export class CallSession {
 
   /** The staff mark something in or out of stock. The agent is told on the next turn. */
   toggleStock(id: string): void {
-    if (this.run || this.receipt || !this.deps.getKey()) return;
+    if (this.run || !this.deps.getKey()) return;
+    // A finished sample call is not a call the visitor can continue; their own starts clean.
     if (this.origin === "sample") this.clear();
+    if (this.receipt) return;
     const committedOut = this.committedOut.includes(id);
     const pending = this.pendingKitchen.find((change) => change.id === id);
     const currentlyOut = pending ? !pending.inStock : committedOut;
@@ -345,9 +372,10 @@ export class CallSession {
 
   /** Live actions need a key, and never continue a transcript that came from a sample. */
   private readyForLive(): boolean {
-    if (!this.deps.getKey() || this.receipt) return false;
+    if (!this.deps.getKey()) return false;
     if (this.run) this.stop();
     if (this.origin === "sample") this.clear();
+    if (this.receipt) return false;
     if (this.turns.length >= CALL_LIMITS.maxTurns) {
       this.error = {
         kind: "limit",
@@ -383,6 +411,7 @@ export class CallSession {
     this.error = null;
     this.origin = "none";
     this.finished = null;
+    this.sampleId = null;
     this.spend = { costUsd: 0, turns: 0 };
     this.spoken.clear();
     this.releaseIdle();
@@ -498,10 +527,18 @@ export class CallSession {
     this.liveLog = [];
     this.liveCart = null;
     this.derive();
+    this.dropUnstoredTools(flight);
     if (flight.captionId) {
       this.updateAgent(flight.captionId, (caption) => ({ ...caption, cutOff: true, pending: "" }));
     }
     if (this.timeline) this.timeline = { ...this.timeline, status: "cancelled" };
+  }
+
+  /** Removes tool lines whose round never reached the transcript, so the screen matches the order. */
+  private dropUnstoredTools(flight: Flight): void {
+    const stored = new Set(this.committedLog.map((entry) => entry.id));
+    const gone = new Set(flight.toolIds.filter((id) => !stored.has(id)).map((id) => `tool-${id}`));
+    if (gone.size > 0) this.captions = this.captions.filter((caption) => !gone.has(caption.id));
   }
 
   // One turn --------------------------------------------------------------------
@@ -527,15 +564,24 @@ export class CallSession {
       instant: args.instant,
       committed: false,
       speechStarted: false,
+      toolIds: [],
+      customerCaptionId: null,
     };
     this.flight = flight;
     this.error = null;
     this.finished = null;
     this.origin = flight.demo ? "sample" : "live";
     if (!flight.demo) {
+      flight.customerCaptionId = this.id("c");
       this.captions = [
         ...this.captions,
-        { id: this.id("c"), role: "customer", text: args.text, scripted: false, speaking: false },
+        {
+          id: flight.customerCaptionId,
+          role: "customer",
+          text: args.text,
+          scripted: false,
+          speaking: false,
+        },
       ];
     }
     this.timeline = {
@@ -589,6 +635,12 @@ export class CallSession {
       this.planning = null;
       // The turn never happened as far as the transcript goes, so the staff's changes go back in the queue.
       this.pendingKitchen = [...kitchen, ...this.pendingKitchen];
+      this.dropUnstoredTools(flight);
+      this.captions = this.captions.map((caption) =>
+        caption.id === flight.customerCaptionId && caption.role === "customer"
+          ? { ...caption, unanswered: true }
+          : caption,
+      );
       this.error = { kind: response.error.kind, message: response.error.message };
       if (flight.captionId) {
         this.updateAgent(flight.captionId, (caption) => ({
@@ -673,21 +725,24 @@ export class CallSession {
         this.addSentences(flight, flight.chunker.flush());
         this.planning = { people: event.people, budget: event.budget, needs: event.needs };
         break;
-      case "tool":
+      case "tool": {
         this.addSentences(flight, flight.chunker.flush());
         this.planning = null;
-        this.liveLog = [
-          ...this.liveLog,
-          {
-            id: event.id,
-            name: event.name,
-            ok: event.ok,
-            summary: event.summary,
-            ...(event.plan ? { plan: event.plan } : {}),
-          },
-        ];
+        const entry: LogEntry = {
+          id: event.id,
+          name: event.name,
+          ok: event.ok,
+          summary: event.summary,
+          ...(event.plan ? { plan: event.plan } : {}),
+        };
+        this.liveLog = [...this.liveLog, entry];
         this.liveCart = event.cart;
+        this.captions = [...this.captions, { id: `tool-${event.id}`, role: "tool", entry }];
+        // Whatever the agent says next belongs under this call, in a new caption.
+        flight.captionId = null;
+        flight.toolIds.push(event.id);
         break;
+      }
       case "round":
         // A finished round is kept even if the rest of the turn is cancelled.
         flight.record.assistant.push(event.content);
@@ -808,6 +863,7 @@ export class CallSession {
     const run: SampleRun = { sample, cancelled: false, demoId: null };
     this.run = run;
     this.origin = "sample";
+    this.sampleId = sample.id;
 
     for (const [index, turn] of sample.turns.entries()) {
       if (run.cancelled) return;
@@ -858,6 +914,7 @@ export class CallSession {
     const run: SampleRun = { sample, cancelled: false, demoId: null };
     this.run = run;
     this.origin = "sample";
+    this.sampleId = sample.id;
 
     for (const [index, turn] of sample.turns.entries()) {
       this.sampleView = {

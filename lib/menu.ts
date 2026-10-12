@@ -85,9 +85,9 @@ export const COMPONENTS = {
   queso: { name: "queso", allergens: ["dairy"] },
   sour_cream: { name: "sour cream", allergens: ["dairy"] },
   extra_protein: { name: "double protein", allergens: [] },
-  fried_egg: { name: "a fried egg", allergens: ["egg"] },
+  fried_egg: { name: "fried egg", allergens: ["egg"] },
   avocado: { name: "avocado", allergens: [] },
-  extra_shot: { name: "an extra shot", allergens: [] },
+  extra_shot: { name: "extra shot", allergens: [] },
   vanilla: { name: "vanilla syrup", allergens: [] },
   // Default ingredients a customer can ask to leave off
   rice: { name: "rice", allergens: [] },
