@@ -37,9 +37,7 @@ function AgentCaption({ caption }: { caption: Extract<Caption, { role: "agent" }
         ))}
         {caption.pending && <span className="text-muted">{caption.pending}</span>}
       </p>
-      {caption.cutOff && (
-        <p className="mt-1 text-xs text-muted">Cut off: the customer started talking.</p>
-      )}
+      {caption.cutOff && <p className="mt-1 text-xs text-muted">Cut off before it finished.</p>}
     </div>
   );
 }
@@ -155,6 +153,10 @@ function Welcome({ placeholder, isLive, onPlay }: Omit<ConversationProps, "snaps
 
 export function Conversation({ snapshot, placeholder, isLive, onPlay }: ConversationProps) {
   const { captions, planning, interim, phase } = snapshot;
+  // "vegetarian, vegetarian, gluten-free" reads better as "2 vegetarian, 1 gluten-free".
+  const needCounts = new Map<string, number>();
+  for (const need of planning?.needs ?? []) needCounts.set(need, (needCounts.get(need) ?? 0) + 1);
+  const needs = [...needCounts].map(([need, count]) => `${count} ${need}`);
 
   if (captions.length === 0 && phase === "idle" && !snapshot.sample) {
     return <Welcome placeholder={placeholder} isLive={isLive} onPlay={onPlay} />;
@@ -206,8 +208,8 @@ export function Conversation({ snapshot, placeholder, isLive, onPlay }: Conversa
             <span className="text-muted">
               {planning.people} people
               {planning.budget ? `, ${planning.budget} with tax` : ""}
-              {planning.needs.length > 0 ? `, ${planning.needs.join(", ")}` : ""}. The order engine
-              checks and prices the plan before the agent may offer it.
+              {needs.length > 0 ? `, ${needs.join(", ")}` : ""}. The order engine checks and prices
+              the plan before the agent may offer it.
             </span>
           </p>
         </div>
