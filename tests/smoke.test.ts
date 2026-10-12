@@ -104,7 +104,9 @@ describe.each(SAMPLES)("sample call in demo mode: $title", (sample) => {
     );
     expect(snapshot.log.map(({ id, ok, summary }) => ({ id, ok, summary }))).toEqual(expectedLog);
 
-    // Honest labels: the timeline carries the fixture's own placeholder flag and no browser timing claims.
+    // Honest labels: wording that names a model follows the fixtures' own placeholder flags.
+    expect(snapshot.handWritten).toBe(sample.turns.some((turn) => store[turn.demoId].placeholder));
+    // The timeline carries the last fixture's flag and no browser timing claims.
     expect(snapshot.timeline).toMatchObject({
       source: "sample",
       status: "done",

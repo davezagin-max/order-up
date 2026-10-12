@@ -69,7 +69,13 @@ function CustomerCaption({ caption }: { caption: Extract<Caption, { role: "custo
   );
 }
 
-function KitchenCaption({ caption }: { caption: Extract<Caption, { role: "kitchen" }> }) {
+function KitchenCaption({
+  caption,
+  handWritten,
+}: {
+  caption: Extract<Caption, { role: "kitchen" }>;
+  handWritten: boolean;
+}) {
   return (
     <div className="rounded-lg border border-dashed border-border px-3 py-2 text-sm">
       <p className="text-xs font-medium tracking-wide text-muted uppercase">Kitchen</p>
@@ -83,7 +89,9 @@ function KitchenCaption({ caption }: { caption: Extract<Caption, { role: "kitche
             {effect.affected.length > 0
               ? `It is in this order (${effect.affected.map((line) => line.name).join(", ")}). `
               : ""}
-            The agent was told in a system message the server wrote.
+            {handWritten
+              ? "In a live call the agent is told in a system message the server writes."
+              : "The agent was told in a system message the server wrote."}
           </span>
         </p>
       ))}
@@ -164,12 +172,14 @@ export function Conversation({ snapshot, placeholder, isLive, onPlay }: Conversa
           return <CustomerCaption key={caption.id} caption={caption} />;
         if (caption.role === "agent") return <AgentCaption key={caption.id} caption={caption} />;
         if (caption.role === "kitchen")
-          return <KitchenCaption key={caption.id} caption={caption} />;
+          return (
+            <KitchenCaption key={caption.id} caption={caption} handWritten={snapshot.handWritten} />
+          );
         return (
           // On wide screens the tape sits beside the order. On a phone it is shown here, in place.
           <div key={caption.id} className="lg:hidden">
             <TapeLine entry={caption.entry} />
-            <PlanCard entry={caption.entry} />
+            <PlanCard entry={caption.entry} handWritten={snapshot.handWritten} />
           </div>
         );
       })}
@@ -188,7 +198,11 @@ export function Conversation({ snapshot, placeholder, isLive, onPlay }: Conversa
             className="mic-spin mt-0.5 size-4 shrink-0 rounded-full border-2 border-border border-t-accent"
           />
           <p>
-            <span className="font-medium">Claude Opus 5.5 is planning the group order.</span>{" "}
+            <span className="font-medium">
+              {snapshot.handWritten
+                ? "Planning the group order. In a live call this step is one request to Claude Opus 5.5."
+                : "Claude Opus 5.5 is planning the group order."}
+            </span>{" "}
             <span className="text-muted">
               {planning.people} people
               {planning.budget ? `, ${planning.budget} with tax` : ""}

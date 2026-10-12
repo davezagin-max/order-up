@@ -133,6 +133,11 @@ export interface CallSnapshot {
   finished: string | null;
   /** The sample call the conversation on screen came from, playing or not. */
   sampleId: string | null;
+  /**
+   * The conversation on screen includes hand-written sample turns, so no model
+   * produced it. Labels that name a model must not claim otherwise.
+   */
+  handWritten: boolean;
   error: CallError | null;
   soundOn: boolean;
   /** The browser has speech synthesis but it produced no sound. */
@@ -211,6 +216,7 @@ export class CallSession {
   private origin: CallSnapshot["origin"] = "none";
   private finished: string | null = null;
   private sampleId: string | null = null;
+  private handWritten = false;
   private soundOn = true;
   private audioFailed = false;
   private spend = { costUsd: 0, turns: 0 };
@@ -276,6 +282,7 @@ export class CallSession {
       origin: this.origin,
       finished: this.finished,
       sampleId: this.sampleId,
+      handWritten: this.handWritten,
       error: this.error,
       soundOn: this.soundOn,
       audioFailed: this.audioFailed,
@@ -414,6 +421,7 @@ export class CallSession {
     this.origin = "none";
     this.finished = null;
     this.sampleId = null;
+    this.handWritten = false;
     this.spend = { costUsd: 0, turns: 0 };
     this.spoken.clear();
     // One silent utterance turns the voice off for that call only; a new call tries again.
@@ -617,7 +625,10 @@ export class CallSession {
       flight.demo ? null : this.deps.getKey(),
       {
         onMeta: (meta) => {
-          if (this.flight !== flight || !this.timeline) return;
+          if (this.flight !== flight) return;
+          // The fixture says for itself whether it is a hand-written sample or a recorded run.
+          if (meta.mode === "demo" && meta.placeholder) this.handWritten = true;
+          if (!this.timeline) return;
           this.timeline = {
             ...this.timeline,
             placeholder: meta.placeholder,

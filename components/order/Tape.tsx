@@ -25,13 +25,15 @@ export function TapeLine({ entry, fresh = false }: { entry: LogEntry; fresh?: bo
 }
 
 /** A group plan as the order engine accepted it: the lines, the total, and the checks it passed. */
-export function PlanCard({ entry }: { entry: LogEntry }) {
+export function PlanCard({ entry, handWritten }: { entry: LogEntry; handWritten: boolean }) {
   const plan = entry.plan;
   if (!plan) return null;
   return (
     <div className="my-1 rounded-md border border-border bg-bg p-2.5 text-xs">
       <p className="font-medium">
-        Plan {plan.planId}: proposed by Claude Opus 5.5, checked and priced by the order engine
+        {handWritten
+          ? `Plan ${plan.planId}: a hand-written stand-in for the planner's proposal, checked and priced by the order engine`
+          : `Plan ${plan.planId}: proposed by Claude Opus 5.5, checked and priced by the order engine`}
       </p>
       <ul className="mt-1.5 flex flex-col gap-0.5 font-mono">
         {plan.lines.map((line, index) => (

@@ -128,7 +128,7 @@ export function CartPanel({ snapshot }: { snapshot: CallSnapshot }) {
             log.map((entry, index) => (
               <div key={entry.id}>
                 <TapeLine entry={entry} fresh={index === log.length - 1} />
-                <PlanCard entry={entry} />
+                <PlanCard entry={entry} handWritten={snapshot.handWritten} />
               </div>
             ))
           )}
