@@ -5,13 +5,13 @@ import {
   CALL_LIMITS,
   INTERRUPT_NOTE,
   TranscriptError,
-  TurnSchema,
   kitchenNote,
   newTurn,
   replay,
   type Block,
   type TurnRecord,
 } from "@/lib/order/history";
+import { TurnSchema } from "@/lib/order/protocol";
 
 const toolUse = (id: string, name: string, input: unknown): Block => ({
   type: "tool_use",

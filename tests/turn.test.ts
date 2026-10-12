@@ -246,6 +246,16 @@ describe("the group planner", () => {
     });
     expect(planner).not.toHaveProperty("tools");
     expect(planner).not.toHaveProperty("tool_choice");
+    // The structured-output schema stays inside what the API accepts: closed objects, every
+    // property required, and no ranges or lengths (the checker enforces those afterwards).
+    const wire = JSON.stringify(
+      (planner.output_config as { format: { schema: object } }).format.schema,
+    );
+    expect(wire).toContain(
+      '"required":["item_id","size","choices","add_ons","leave_off","quantity"]',
+    );
+    expect(wire.match(/"additionalProperties":false/g)).toHaveLength(3);
+    expect(wire).not.toMatch(/"(minimum|maximum|minLength|maxLength|minItems|maxItems|\$ref)"/);
     const plannerMessages = planner.messages as { role: string; content: string }[];
     expect(plannerMessages).toHaveLength(1); // stateless: none of the conversation is sent
     expect(plannerMessages[0].content).toContain('"party_size": 2');

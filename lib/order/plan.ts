@@ -7,7 +7,7 @@
  * the engine prices it, the total must fit the budget, and every person with
  * a dietary need must have a meal of their own that meets it.
  */
-import { z } from "zod";
+import * as z from "zod/mini";
 import { findItem } from "../menu";
 import { dollarsToCents, formatCents } from "../money";
 import {
@@ -31,11 +31,16 @@ export const PLAN_LIMITS = { maxParty: 12, maxLines: 16, maxNotes: 200 } as cons
 /** What the conversation model sends when it calls `plan_group_order`. */
 export const PlanInput = z.strictObject({
   party_size: z.number(),
-  budget_dollars: z.number().nullable(),
+  budget_dollars: z.nullable(z.number()),
   dietary_needs: z
-    .array(z.strictObject({ people: z.number(), needs: z.array(z.string().max(20)).max(5) }))
-    .max(8),
-  notes: z.string().max(1000),
+    .array(
+      z.strictObject({
+        people: z.number(),
+        needs: z.array(z.string().check(z.maxLength(20))).check(z.maxLength(5)),
+      }),
+    )
+    .check(z.maxLength(8)),
+  notes: z.string().check(z.maxLength(1000)),
 });
 
 export interface PlanConstraints {
@@ -111,7 +116,7 @@ export const PlanProposal = z.object({
   lines: z.array(
     z.object({
       item_id: z.string(),
-      size: z.string().nullable(),
+      size: z.nullable(z.string()),
       choices: z.array(z.object({ group: z.string(), option: z.string() })),
       add_ons: z.array(z.string()),
       leave_off: z.array(z.string()),

@@ -9,7 +9,8 @@
  *
  * Isomorphic on purpose: the browser runs it too, to draw the cart.
  */
-import { z } from "zod";
+// The tree-shakable build of zod: this file also runs in the browser.
+import * as z from "zod/mini";
 import {
   ADD_ONS,
   ALLERGENS,
@@ -308,34 +309,36 @@ export function meetsNeed(traits: Traits, need: DietNeed): boolean {
 
 // Tool inputs ---------------------------------------------------------------
 
-const ChoiceInput = z.strictObject({ group: z.string().max(40), option: z.string().max(40) });
-const Ids = z.array(z.string().max(40)).max(16);
+const text = (max: number) => z.string().check(z.maxLength(max));
+const list = <T extends z.ZodMiniType>(of: T, max: number) => z.array(of).check(z.maxLength(max));
+const ChoiceInput = z.strictObject({ group: text(40), option: text(40) });
+const Ids = list(text(40), 16);
 
 /** Strict objects: an extra field such as `price` fails validation instead of being ignored. */
 export const TOOL_INPUTS = {
   add_item: z.strictObject({
-    item_id: z.string().max(40),
-    size: z.string().max(20).nullable(),
-    choices: z.array(ChoiceInput).max(8),
+    item_id: text(40),
+    size: z.nullable(text(20)),
+    choices: list(ChoiceInput, 8),
     add_ons: Ids,
     leave_off: Ids,
     quantity: z.number(),
   }),
   update_line: z.strictObject({
-    line_id: z.string().max(12),
-    quantity: z.number().nullable(),
-    size: z.string().max(20).nullable(),
-    choices: z.array(ChoiceInput).max(8),
+    line_id: text(12),
+    quantity: z.nullable(z.number()),
+    size: z.nullable(text(20)),
+    choices: list(ChoiceInput, 8),
     add_ons_to_add: Ids,
     add_ons_to_remove: Ids,
     leave_off: Ids,
     put_back: Ids,
   }),
-  remove_line: z.strictObject({ line_id: z.string().max(12) }),
-  set_pickup_name: z.strictObject({ name: z.string().max(200) }),
+  remove_line: z.strictObject({ line_id: text(12) }),
+  set_pickup_name: z.strictObject({ name: text(200) }),
   review_order: z.strictObject({}),
   confirm_order: z.strictObject({}),
-  add_planned_order: z.strictObject({ plan_id: z.string().max(12) }),
+  add_planned_order: z.strictObject({ plan_id: text(12) }),
 } as const;
 
 export type AddItemInput = z.infer<typeof TOOL_INPUTS.add_item>;

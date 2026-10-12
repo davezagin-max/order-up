@@ -14,7 +14,6 @@
  *
  * Isomorphic: the browser calls `replay` to draw the cart from the same data.
  */
-import { z } from "zod";
 import {
   applyKitchen,
   applyTool,
@@ -53,18 +52,6 @@ export interface TurnRecord {
   /** The planner's proposals, by tool_use id. Re-validated and re-priced on every replay. */
   plans: Record<string, unknown>;
 }
-
-const KitchenChangeSchema = z.strictObject({ id: z.string().max(40), inStock: z.boolean() });
-
-export const TurnSchema = z.strictObject({
-  text: z.string().max(CALL_LIMITS.maxTextLength),
-  kitchen: z.array(KitchenChangeSchema).max(CALL_LIMITS.maxKitchenChanges),
-  interrupted: z.boolean(),
-  assistant: z
-    .array(z.array(z.record(z.string(), z.unknown())).max(CALL_LIMITS.maxBlocksPerRound))
-    .max(CALL_LIMITS.maxRounds),
-  plans: z.record(z.string().max(128), z.unknown()),
-});
 
 export interface ToolUse {
   id: string;

@@ -74,7 +74,7 @@ describe("tool definitions", () => {
     expect(wire.match(/"anyOf"/g)?.length ?? 0).toBeLessThanOrEqual(16);
     for (const tool of ORDER_TOOLS) {
       expect(tool.strict).toBe(true);
-      const schema = tool.input_schema as {
+      const schema = tool.input_schema as unknown as {
         properties: object;
         required: string[];
         additionalProperties: boolean;

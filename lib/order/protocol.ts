@@ -1,12 +1,28 @@
 /**
  * The wire contract between the browser and `/api/turn`: the request body, the
- * events streamed during a turn, and the final result. Types only plus the
- * request schema, so both sides can import it.
+ * events streamed during a turn, and the final result. The browser imports
+ * only the types; the request schemas are used by the route.
  */
 import { z } from "zod";
 import type { Usage } from "../config";
 import type { KitchenEffect, PlanView, PricedCart, Receipt } from "./engine";
-import { CALL_LIMITS, TurnSchema, type Block } from "./history";
+import { CALL_LIMITS, type Block, type TurnRecord } from "./history";
+
+const KitchenChangeSchema = z.strictObject({ id: z.string().max(40), inStock: z.boolean() });
+
+/**
+ * One stored turn as the browser sends it back. Strict: there is no field for
+ * a tool result, a cart, or a price, so the browser has nowhere to put one.
+ */
+export const TurnSchema = z.strictObject({
+  text: z.string().max(CALL_LIMITS.maxTextLength),
+  kitchen: z.array(KitchenChangeSchema).max(CALL_LIMITS.maxKitchenChanges),
+  interrupted: z.boolean(),
+  assistant: z
+    .array(z.array(z.record(z.string(), z.unknown())).max(CALL_LIMITS.maxBlocksPerRound))
+    .max(CALL_LIMITS.maxRounds),
+  plans: z.record(z.string().max(128), z.unknown()),
+}) satisfies z.ZodType<TurnRecord>;
 
 export const TurnBodySchema = z.strictObject({
   /** Present on a sample-call turn: the fixture to replay. */

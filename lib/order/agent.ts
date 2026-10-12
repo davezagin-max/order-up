@@ -14,6 +14,7 @@
  * abort signal reaches every model call and no call starts after an abort.
  */
 import type Anthropic from "@anthropic-ai/sdk";
+import type { ZodType } from "zod";
 import type { LiveResult } from "../api";
 import { PipelineError, callClaude, untrusted, withSystemNote, type Msg } from "../claude";
 import { MODELS, ZERO_USAGE, addUsage, type Effort, type Usage } from "../config";
@@ -165,7 +166,9 @@ export async function proposePlan(args: {
       maxTokens: PLANNER.maxTokens,
       system: PLANNER_PROMPT,
       cacheSystem: true,
-      schema: PlanProposal,
+      // Declared with zod/mini so the browser bundle stays small; the helper only needs
+      // `safeParse` and a JSON Schema, which both builds of zod provide.
+      schema: PlanProposal as unknown as ZodType<PlanProposal>,
       // Stateless on purpose: each attempt is a fresh single-message request.
       messages: [
         { role: "user", content: plannerRequest(args.constraints, args.outOfStock, problems) },
