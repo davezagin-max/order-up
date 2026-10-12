@@ -439,7 +439,7 @@ describe("kitchen stock", () => {
         name: "carnitas",
         inStock: false,
         affected: [{ lineId: "L1", name: "regular carnitas burrito" }],
-        alternatives: ["grilled chicken", "steak", "barbacoa", "sofritas", "fajita veggies"],
+        alternatives: ["grilled chicken", "steak", "barbacoa", "sofritas", "fajita veggie"],
       },
     ]);
     expect(priceCart(state).lines[0].issue).toBe("carnitas is out of stock");

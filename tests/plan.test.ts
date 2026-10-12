@@ -190,8 +190,8 @@ describe("plan_group_order and add_planned_order", () => {
       meals: 6,
     });
     expect(planned.outcome.output.covers).toEqual([
-      { need: "vegetarian", meal: "regular fajita veggies burrito bowl" },
-      { need: "vegetarian", meal: "regular fajita veggies burrito bowl" },
+      { need: "vegetarian", meal: "regular fajita veggie burrito bowl" },
+      { need: "vegetarian", meal: "regular fajita veggie burrito bowl" },
       { need: "gluten-free", meal: "grilled chicken street tacos on corn tortillas" },
     ]);
     expect(planned.outcome.summary).toBe("planned P1: 6 meals for 6, $59.26 of $60.00");

@@ -56,7 +56,7 @@ export const COMPONENTS = {
   carnitas: { name: "carnitas", allergens: [], meat: true },
   barbacoa: { name: "barbacoa", allergens: [], meat: true },
   sofritas: { name: "sofritas", allergens: ["soy"] },
-  veggies: { name: "fajita veggies", allergens: [] },
+  veggies: { name: "fajita veggie", allergens: [] },
   // Breakfast fillings
   bacon: { name: "bacon", allergens: [], meat: true },
   chorizo: { name: "chorizo", allergens: [], meat: true },

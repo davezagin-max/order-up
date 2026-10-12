@@ -23,6 +23,7 @@ import {
   type KitchenChange,
   type KitchenEffect,
   type OrderState,
+  type PlanView,
   type ToolOutcome,
 } from "./engine";
 import { applyPlan } from "./plan";
@@ -160,15 +161,16 @@ function listNames(names: string[]): string {
  */
 export function kitchenNote(effects: KitchenEffect[]): string {
   const lines = effects.map((effect) => {
-    if (effect.inStock) return `${effect.name} is available again.`;
+    const name = effect.name.charAt(0).toUpperCase() + effect.name.slice(1);
+    if (effect.inStock) return `${name} is available again.`;
     if (effect.affected.length === 0) {
-      return `${effect.name} just ran out. Nothing in the order uses it. Do not offer it.`;
+      return `${name} just ran out. Nothing in the order uses it. Do not offer it.`;
     }
     const where = listNames(effect.affected.map((line) => `line ${line.lineId} (${line.name})`));
     const instead = effect.alternatives.length
       ? ` In stock instead: ${listNames(effect.alternatives)}.`
       : "";
-    return `${effect.name} just ran out. It is in the order on ${where}. Tell the customer now, offer something that is in stock, and change or remove ${effect.affected.length > 1 ? "those lines" : "that line"}.${instead}`;
+    return `${name} just ran out. It is in the order on ${where}. Tell the customer now, offer something that is in stock, and change or remove ${effect.affected.length > 1 ? "those lines" : "that line"}.${instead}`;
   });
   return `Kitchen update from the staff. ${lines.join(" ")}`;
 }
@@ -195,6 +197,8 @@ export interface ToolLogEntry {
   name: string;
   ok: boolean;
   summary: string;
+  /** For an accepted group plan: the checked and priced plan, for display. */
+  plan?: PlanView;
 }
 
 export interface Replayed {
@@ -264,6 +268,7 @@ export function replay(turns: readonly TurnRecord[]): Replayed {
           name: use.name,
           ok: result.outcome.ok,
           summary: result.outcome.summary,
+          ...(result.outcome.plan ? { plan: result.outcome.plan } : {}),
         });
         return toolResult(use, result.outcome);
       });

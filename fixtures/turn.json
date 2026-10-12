@@ -1,0 +1,4019 @@
+{
+  "changes-1": {
+    "label": "Changes and a sold-out item, turn 1",
+    "placeholder": true,
+    "recordedAt": null,
+    "model": "claude-haiku-5-5",
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    },
+    "costUsd": 0,
+    "data": {
+      "assistant": [
+        [
+          {
+            "type": "text",
+            "text": "Sure."
+          },
+          {
+            "type": "tool_use",
+            "id": "toolu_changes_1_1",
+            "name": "add_item",
+            "input": {
+              "item_id": "burrito",
+              "size": null,
+              "choices": [
+                {
+                  "group": "protein",
+                  "option": "chicken"
+                }
+              ],
+              "add_ons": [],
+              "leave_off": [],
+              "quantity": 2
+            }
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Two chicken burritos are in. What would you like in the quesadilla?"
+          }
+        ]
+      ],
+      "plans": {},
+      "cart": {
+        "lines": [
+          {
+            "id": "L1",
+            "itemId": "burrito",
+            "name": "regular grilled chicken burrito",
+            "quantity": 2,
+            "details": [],
+            "unitCents": 950,
+            "totalCents": 1900,
+            "issue": null
+          }
+        ],
+        "itemCount": 2,
+        "subtotalCents": 1900,
+        "combos": [],
+        "savingsCents": 0,
+        "taxCents": 147,
+        "totalCents": 2047,
+        "pickupName": null,
+        "confirmed": false
+      },
+      "receipt": null,
+      "timing": null,
+      "models": [],
+      "unbackedAmounts": []
+    },
+    "events": [
+      {
+        "at": 320,
+        "event": {
+          "type": "text",
+          "delta": "Sure."
+        }
+      },
+      {
+        "at": 600,
+        "event": {
+          "type": "tool",
+          "id": "toolu_changes_1_1",
+          "name": "add_item",
+          "ok": true,
+          "summary": "added: 2 × regular grilled chicken burrito",
+          "cart": {
+            "lines": [
+              {
+                "id": "L1",
+                "itemId": "burrito",
+                "name": "regular grilled chicken burrito",
+                "quantity": 2,
+                "details": [],
+                "unitCents": 950,
+                "totalCents": 1900,
+                "issue": null
+              }
+            ],
+            "itemCount": 2,
+            "subtotalCents": 1900,
+            "combos": [],
+            "savingsCents": 0,
+            "taxCents": 147,
+            "totalCents": 2047,
+            "pickupName": null,
+            "confirmed": false
+          }
+        }
+      },
+      {
+        "at": 600,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "text",
+              "text": "Sure."
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_changes_1_1",
+              "name": "add_item",
+              "input": {
+                "item_id": "burrito",
+                "size": null,
+                "choices": [
+                  {
+                    "group": "protein",
+                    "option": "chicken"
+                  }
+                ],
+                "add_ons": [],
+                "leave_off": [],
+                "quantity": 2
+              }
+            }
+          ],
+          "plans": {}
+        }
+      },
+      {
+        "at": 760,
+        "event": {
+          "type": "text",
+          "delta": "Two chicken burritos are in. "
+        }
+      },
+      {
+        "at": 920,
+        "event": {
+          "type": "text",
+          "delta": "What would you like in the quesadilla?"
+        }
+      },
+      {
+        "at": 920,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "text",
+              "text": "Two chicken burritos are in. What would you like in the quesadilla?"
+            }
+          ],
+          "plans": {}
+        }
+      }
+    ]
+  },
+  "changes-2": {
+    "label": "Changes and a sold-out item, turn 2",
+    "placeholder": true,
+    "recordedAt": null,
+    "model": "claude-haiku-5-5",
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    },
+    "costUsd": 0,
+    "data": {
+      "assistant": [
+        [
+          {
+            "type": "tool_use",
+            "id": "toolu_changes_2_1",
+            "name": "add_item",
+            "input": {
+              "item_id": "quesadilla",
+              "size": null,
+              "choices": [
+                {
+                  "group": "protein",
+                  "option": "carnitas"
+                }
+              ],
+              "add_ons": [],
+              "leave_off": [],
+              "quantity": 1
+            }
+          },
+          {
+            "type": "tool_use",
+            "id": "toolu_changes_2_2",
+            "name": "update_line",
+            "input": {
+              "line_id": "L1",
+              "quantity": 1,
+              "size": null,
+              "choices": [],
+              "add_ons_to_add": [],
+              "add_ons_to_remove": [],
+              "leave_off": [],
+              "put_back": []
+            }
+          },
+          {
+            "type": "tool_use",
+            "id": "toolu_changes_2_3",
+            "name": "add_item",
+            "input": {
+              "item_id": "bowl",
+              "size": null,
+              "choices": [
+                {
+                  "group": "protein",
+                  "option": "steak"
+                }
+              ],
+              "add_ons": [],
+              "leave_off": [],
+              "quantity": 1
+            }
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Done. That's one chicken burrito, a carnitas quesadilla, and a steak bowl. Anything else?"
+          }
+        ]
+      ],
+      "plans": {},
+      "cart": {
+        "lines": [
+          {
+            "id": "L1",
+            "itemId": "burrito",
+            "name": "regular grilled chicken burrito",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 950,
+            "totalCents": 950,
+            "issue": null
+          },
+          {
+            "id": "L2",
+            "itemId": "quesadilla",
+            "name": "carnitas quesadilla",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 825,
+            "totalCents": 825,
+            "issue": null
+          },
+          {
+            "id": "L3",
+            "itemId": "bowl",
+            "name": "regular steak burrito bowl",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 1100,
+            "totalCents": 1100,
+            "issue": null
+          }
+        ],
+        "itemCount": 3,
+        "subtotalCents": 2875,
+        "combos": [],
+        "savingsCents": 0,
+        "taxCents": 223,
+        "totalCents": 3098,
+        "pickupName": null,
+        "confirmed": false
+      },
+      "receipt": null,
+      "timing": null,
+      "models": [],
+      "unbackedAmounts": []
+    },
+    "events": [
+      {
+        "at": 320,
+        "event": {
+          "type": "tool",
+          "id": "toolu_changes_2_1",
+          "name": "add_item",
+          "ok": true,
+          "summary": "added: carnitas quesadilla",
+          "cart": {
+            "lines": [
+              {
+                "id": "L1",
+                "itemId": "burrito",
+                "name": "regular grilled chicken burrito",
+                "quantity": 2,
+                "details": [],
+                "unitCents": 950,
+                "totalCents": 1900,
+                "issue": null
+              },
+              {
+                "id": "L2",
+                "itemId": "quesadilla",
+                "name": "carnitas quesadilla",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 825,
+                "totalCents": 825,
+                "issue": null
+              }
+            ],
+            "itemCount": 3,
+            "subtotalCents": 2725,
+            "combos": [],
+            "savingsCents": 0,
+            "taxCents": 211,
+            "totalCents": 2936,
+            "pickupName": null,
+            "confirmed": false
+          }
+        }
+      },
+      {
+        "at": 600,
+        "event": {
+          "type": "tool",
+          "id": "toolu_changes_2_2",
+          "name": "update_line",
+          "ok": true,
+          "summary": "changed: 2 × regular grilled chicken burrito → regular grilled chicken burrito",
+          "cart": {
+            "lines": [
+              {
+                "id": "L1",
+                "itemId": "burrito",
+                "name": "regular grilled chicken burrito",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 950,
+                "totalCents": 950,
+                "issue": null
+              },
+              {
+                "id": "L2",
+                "itemId": "quesadilla",
+                "name": "carnitas quesadilla",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 825,
+                "totalCents": 825,
+                "issue": null
+              }
+            ],
+            "itemCount": 2,
+            "subtotalCents": 1775,
+            "combos": [],
+            "savingsCents": 0,
+            "taxCents": 138,
+            "totalCents": 1913,
+            "pickupName": null,
+            "confirmed": false
+          }
+        }
+      },
+      {
+        "at": 880,
+        "event": {
+          "type": "tool",
+          "id": "toolu_changes_2_3",
+          "name": "add_item",
+          "ok": true,
+          "summary": "added: regular steak burrito bowl",
+          "cart": {
+            "lines": [
+              {
+                "id": "L1",
+                "itemId": "burrito",
+                "name": "regular grilled chicken burrito",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 950,
+                "totalCents": 950,
+                "issue": null
+              },
+              {
+                "id": "L2",
+                "itemId": "quesadilla",
+                "name": "carnitas quesadilla",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 825,
+                "totalCents": 825,
+                "issue": null
+              },
+              {
+                "id": "L3",
+                "itemId": "bowl",
+                "name": "regular steak burrito bowl",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 1100,
+                "totalCents": 1100,
+                "issue": null
+              }
+            ],
+            "itemCount": 3,
+            "subtotalCents": 2875,
+            "combos": [],
+            "savingsCents": 0,
+            "taxCents": 223,
+            "totalCents": 3098,
+            "pickupName": null,
+            "confirmed": false
+          }
+        }
+      },
+      {
+        "at": 880,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "tool_use",
+              "id": "toolu_changes_2_1",
+              "name": "add_item",
+              "input": {
+                "item_id": "quesadilla",
+                "size": null,
+                "choices": [
+                  {
+                    "group": "protein",
+                    "option": "carnitas"
+                  }
+                ],
+                "add_ons": [],
+                "leave_off": [],
+                "quantity": 1
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_changes_2_2",
+              "name": "update_line",
+              "input": {
+                "line_id": "L1",
+                "quantity": 1,
+                "size": null,
+                "choices": [],
+                "add_ons_to_add": [],
+                "add_ons_to_remove": [],
+                "leave_off": [],
+                "put_back": []
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_changes_2_3",
+              "name": "add_item",
+              "input": {
+                "item_id": "bowl",
+                "size": null,
+                "choices": [
+                  {
+                    "group": "protein",
+                    "option": "steak"
+                  }
+                ],
+                "add_ons": [],
+                "leave_off": [],
+                "quantity": 1
+              }
+            }
+          ],
+          "plans": {}
+        }
+      },
+      {
+        "at": 1040,
+        "event": {
+          "type": "text",
+          "delta": "Done. "
+        }
+      },
+      {
+        "at": 1200,
+        "event": {
+          "type": "text",
+          "delta": "That's one chicken burrito, a carnitas quesadilla, and a steak bowl. "
+        }
+      },
+      {
+        "at": 1360,
+        "event": {
+          "type": "text",
+          "delta": "Anything else?"
+        }
+      },
+      {
+        "at": 1360,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "text",
+              "text": "Done. That's one chicken burrito, a carnitas quesadilla, and a steak bowl. Anything else?"
+            }
+          ],
+          "plans": {}
+        }
+      }
+    ]
+  },
+  "changes-3": {
+    "label": "Changes and a sold-out item, turn 3",
+    "placeholder": true,
+    "recordedAt": null,
+    "model": "claude-haiku-5-5",
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    },
+    "costUsd": 0,
+    "data": {
+      "assistant": [
+        [
+          {
+            "type": "tool_use",
+            "id": "toolu_changes_3_1",
+            "name": "add_item",
+            "input": {
+              "item_id": "cold_brew",
+              "size": "large",
+              "choices": [],
+              "add_ons": [],
+              "leave_off": [],
+              "quantity": 1
+            }
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Large cold brew, added. One thing, though. The kitchen just ran out of carnitas, so I can't make that quesadilla. Would chicken or steak work instead?"
+          }
+        ]
+      ],
+      "plans": {},
+      "cart": {
+        "lines": [
+          {
+            "id": "L1",
+            "itemId": "burrito",
+            "name": "regular grilled chicken burrito",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 950,
+            "totalCents": 950,
+            "issue": null
+          },
+          {
+            "id": "L2",
+            "itemId": "quesadilla",
+            "name": "carnitas quesadilla",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 825,
+            "totalCents": 825,
+            "issue": "carnitas is out of stock"
+          },
+          {
+            "id": "L3",
+            "itemId": "bowl",
+            "name": "regular steak burrito bowl",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 1100,
+            "totalCents": 1100,
+            "issue": null
+          },
+          {
+            "id": "L4",
+            "itemId": "cold_brew",
+            "name": "large cold brew",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 500,
+            "totalCents": 500,
+            "issue": null
+          }
+        ],
+        "itemCount": 4,
+        "subtotalCents": 3375,
+        "combos": [],
+        "savingsCents": 0,
+        "taxCents": 262,
+        "totalCents": 3637,
+        "pickupName": null,
+        "confirmed": false
+      },
+      "receipt": null,
+      "timing": null,
+      "models": [],
+      "unbackedAmounts": []
+    },
+    "events": [
+      {
+        "at": 320,
+        "event": {
+          "type": "kitchen",
+          "effects": [
+            {
+              "id": "carnitas",
+              "name": "carnitas",
+              "inStock": false,
+              "affected": [
+                {
+                  "lineId": "L2",
+                  "name": "carnitas quesadilla"
+                }
+              ],
+              "alternatives": [
+                "grilled chicken",
+                "steak",
+                "barbacoa",
+                "sofritas",
+                "fajita veggie"
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "at": 600,
+        "event": {
+          "type": "tool",
+          "id": "toolu_changes_3_1",
+          "name": "add_item",
+          "ok": true,
+          "summary": "added: large cold brew",
+          "cart": {
+            "lines": [
+              {
+                "id": "L1",
+                "itemId": "burrito",
+                "name": "regular grilled chicken burrito",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 950,
+                "totalCents": 950,
+                "issue": null
+              },
+              {
+                "id": "L2",
+                "itemId": "quesadilla",
+                "name": "carnitas quesadilla",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 825,
+                "totalCents": 825,
+                "issue": "carnitas is out of stock"
+              },
+              {
+                "id": "L3",
+                "itemId": "bowl",
+                "name": "regular steak burrito bowl",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 1100,
+                "totalCents": 1100,
+                "issue": null
+              },
+              {
+                "id": "L4",
+                "itemId": "cold_brew",
+                "name": "large cold brew",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 500,
+                "totalCents": 500,
+                "issue": null
+              }
+            ],
+            "itemCount": 4,
+            "subtotalCents": 3375,
+            "combos": [],
+            "savingsCents": 0,
+            "taxCents": 262,
+            "totalCents": 3637,
+            "pickupName": null,
+            "confirmed": false
+          }
+        }
+      },
+      {
+        "at": 600,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "tool_use",
+              "id": "toolu_changes_3_1",
+              "name": "add_item",
+              "input": {
+                "item_id": "cold_brew",
+                "size": "large",
+                "choices": [],
+                "add_ons": [],
+                "leave_off": [],
+                "quantity": 1
+              }
+            }
+          ],
+          "plans": {}
+        }
+      },
+      {
+        "at": 760,
+        "event": {
+          "type": "text",
+          "delta": "Large cold brew, added. "
+        }
+      },
+      {
+        "at": 920,
+        "event": {
+          "type": "text",
+          "delta": "One thing, though. "
+        }
+      },
+      {
+        "at": 1080,
+        "event": {
+          "type": "text",
+          "delta": "The kitchen just ran out of carnitas, so I can't make that quesadilla. "
+        }
+      },
+      {
+        "at": 1240,
+        "event": {
+          "type": "text",
+          "delta": "Would chicken or steak work instead?"
+        }
+      },
+      {
+        "at": 1240,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "text",
+              "text": "Large cold brew, added. One thing, though. The kitchen just ran out of carnitas, so I can't make that quesadilla. Would chicken or steak work instead?"
+            }
+          ],
+          "plans": {}
+        }
+      }
+    ]
+  },
+  "changes-4": {
+    "label": "Changes and a sold-out item, turn 4",
+    "placeholder": true,
+    "recordedAt": null,
+    "model": "claude-haiku-5-5",
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    },
+    "costUsd": 0,
+    "data": {
+      "assistant": [
+        [
+          {
+            "type": "tool_use",
+            "id": "toolu_changes_4_1",
+            "name": "update_line",
+            "input": {
+              "line_id": "L2",
+              "quantity": null,
+              "size": null,
+              "choices": [
+                {
+                  "group": "protein",
+                  "option": "steak"
+                }
+              ],
+              "add_ons_to_add": [],
+              "add_ons_to_remove": [],
+              "leave_off": [],
+              "put_back": []
+            }
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Steak quesadilla it is. That one comes to $9.75. Anything else?"
+          }
+        ]
+      ],
+      "plans": {},
+      "cart": {
+        "lines": [
+          {
+            "id": "L1",
+            "itemId": "burrito",
+            "name": "regular grilled chicken burrito",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 950,
+            "totalCents": 950,
+            "issue": null
+          },
+          {
+            "id": "L2",
+            "itemId": "quesadilla",
+            "name": "steak quesadilla",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 975,
+            "totalCents": 975,
+            "issue": null
+          },
+          {
+            "id": "L3",
+            "itemId": "bowl",
+            "name": "regular steak burrito bowl",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 1100,
+            "totalCents": 1100,
+            "issue": null
+          },
+          {
+            "id": "L4",
+            "itemId": "cold_brew",
+            "name": "large cold brew",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 500,
+            "totalCents": 500,
+            "issue": null
+          }
+        ],
+        "itemCount": 4,
+        "subtotalCents": 3525,
+        "combos": [],
+        "savingsCents": 0,
+        "taxCents": 273,
+        "totalCents": 3798,
+        "pickupName": null,
+        "confirmed": false
+      },
+      "receipt": null,
+      "timing": null,
+      "models": [],
+      "unbackedAmounts": []
+    },
+    "events": [
+      {
+        "at": 320,
+        "event": {
+          "type": "tool",
+          "id": "toolu_changes_4_1",
+          "name": "update_line",
+          "ok": true,
+          "summary": "changed: carnitas quesadilla → steak quesadilla",
+          "cart": {
+            "lines": [
+              {
+                "id": "L1",
+                "itemId": "burrito",
+                "name": "regular grilled chicken burrito",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 950,
+                "totalCents": 950,
+                "issue": null
+              },
+              {
+                "id": "L2",
+                "itemId": "quesadilla",
+                "name": "steak quesadilla",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 975,
+                "totalCents": 975,
+                "issue": null
+              },
+              {
+                "id": "L3",
+                "itemId": "bowl",
+                "name": "regular steak burrito bowl",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 1100,
+                "totalCents": 1100,
+                "issue": null
+              },
+              {
+                "id": "L4",
+                "itemId": "cold_brew",
+                "name": "large cold brew",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 500,
+                "totalCents": 500,
+                "issue": null
+              }
+            ],
+            "itemCount": 4,
+            "subtotalCents": 3525,
+            "combos": [],
+            "savingsCents": 0,
+            "taxCents": 273,
+            "totalCents": 3798,
+            "pickupName": null,
+            "confirmed": false
+          }
+        }
+      },
+      {
+        "at": 320,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "tool_use",
+              "id": "toolu_changes_4_1",
+              "name": "update_line",
+              "input": {
+                "line_id": "L2",
+                "quantity": null,
+                "size": null,
+                "choices": [
+                  {
+                    "group": "protein",
+                    "option": "steak"
+                  }
+                ],
+                "add_ons_to_add": [],
+                "add_ons_to_remove": [],
+                "leave_off": [],
+                "put_back": []
+              }
+            }
+          ],
+          "plans": {}
+        }
+      },
+      {
+        "at": 480,
+        "event": {
+          "type": "text",
+          "delta": "Steak quesadilla it is. "
+        }
+      },
+      {
+        "at": 640,
+        "event": {
+          "type": "text",
+          "delta": "That one comes to $9.75. "
+        }
+      },
+      {
+        "at": 800,
+        "event": {
+          "type": "text",
+          "delta": "Anything else?"
+        }
+      },
+      {
+        "at": 800,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "text",
+              "text": "Steak quesadilla it is. That one comes to $9.75. Anything else?"
+            }
+          ],
+          "plans": {}
+        }
+      }
+    ]
+  },
+  "changes-5": {
+    "label": "Changes and a sold-out item, turn 5",
+    "placeholder": true,
+    "recordedAt": null,
+    "model": "claude-haiku-5-5",
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    },
+    "costUsd": 0,
+    "data": {
+      "assistant": [
+        [
+          {
+            "type": "tool_use",
+            "id": "toolu_changes_5_1",
+            "name": "update_line",
+            "input": {
+              "line_id": "L1",
+              "quantity": null,
+              "size": null,
+              "choices": [],
+              "add_ons_to_add": [],
+              "add_ons_to_remove": [],
+              "leave_off": [
+                "onions"
+              ],
+              "put_back": []
+            }
+          },
+          {
+            "type": "tool_use",
+            "id": "toolu_changes_5_2",
+            "name": "set_pickup_name",
+            "input": {
+              "name": "Priya"
+            }
+          },
+          {
+            "type": "tool_use",
+            "id": "toolu_changes_5_3",
+            "name": "review_order",
+            "input": {}
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Okay, Priya. One chicken burrito with no onions, a steak quesadilla, a steak bowl, and a large cold brew. Your total with tax is $37.98. Is that right?"
+          }
+        ]
+      ],
+      "plans": {},
+      "cart": {
+        "lines": [
+          {
+            "id": "L1",
+            "itemId": "burrito",
+            "name": "regular grilled chicken burrito",
+            "quantity": 1,
+            "details": [
+              "no onions"
+            ],
+            "unitCents": 950,
+            "totalCents": 950,
+            "issue": null
+          },
+          {
+            "id": "L2",
+            "itemId": "quesadilla",
+            "name": "steak quesadilla",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 975,
+            "totalCents": 975,
+            "issue": null
+          },
+          {
+            "id": "L3",
+            "itemId": "bowl",
+            "name": "regular steak burrito bowl",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 1100,
+            "totalCents": 1100,
+            "issue": null
+          },
+          {
+            "id": "L4",
+            "itemId": "cold_brew",
+            "name": "large cold brew",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 500,
+            "totalCents": 500,
+            "issue": null
+          }
+        ],
+        "itemCount": 4,
+        "subtotalCents": 3525,
+        "combos": [],
+        "savingsCents": 0,
+        "taxCents": 273,
+        "totalCents": 3798,
+        "pickupName": "Priya",
+        "confirmed": false
+      },
+      "receipt": null,
+      "timing": null,
+      "models": [],
+      "unbackedAmounts": []
+    },
+    "events": [
+      {
+        "at": 320,
+        "event": {
+          "type": "tool",
+          "id": "toolu_changes_5_1",
+          "name": "update_line",
+          "ok": true,
+          "summary": "changed: regular grilled chicken burrito → regular grilled chicken burrito, no onions",
+          "cart": {
+            "lines": [
+              {
+                "id": "L1",
+                "itemId": "burrito",
+                "name": "regular grilled chicken burrito",
+                "quantity": 1,
+                "details": [
+                  "no onions"
+                ],
+                "unitCents": 950,
+                "totalCents": 950,
+                "issue": null
+              },
+              {
+                "id": "L2",
+                "itemId": "quesadilla",
+                "name": "steak quesadilla",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 975,
+                "totalCents": 975,
+                "issue": null
+              },
+              {
+                "id": "L3",
+                "itemId": "bowl",
+                "name": "regular steak burrito bowl",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 1100,
+                "totalCents": 1100,
+                "issue": null
+              },
+              {
+                "id": "L4",
+                "itemId": "cold_brew",
+                "name": "large cold brew",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 500,
+                "totalCents": 500,
+                "issue": null
+              }
+            ],
+            "itemCount": 4,
+            "subtotalCents": 3525,
+            "combos": [],
+            "savingsCents": 0,
+            "taxCents": 273,
+            "totalCents": 3798,
+            "pickupName": null,
+            "confirmed": false
+          }
+        }
+      },
+      {
+        "at": 600,
+        "event": {
+          "type": "tool",
+          "id": "toolu_changes_5_2",
+          "name": "set_pickup_name",
+          "ok": true,
+          "summary": "pickup name: Priya",
+          "cart": {
+            "lines": [
+              {
+                "id": "L1",
+                "itemId": "burrito",
+                "name": "regular grilled chicken burrito",
+                "quantity": 1,
+                "details": [
+                  "no onions"
+                ],
+                "unitCents": 950,
+                "totalCents": 950,
+                "issue": null
+              },
+              {
+                "id": "L2",
+                "itemId": "quesadilla",
+                "name": "steak quesadilla",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 975,
+                "totalCents": 975,
+                "issue": null
+              },
+              {
+                "id": "L3",
+                "itemId": "bowl",
+                "name": "regular steak burrito bowl",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 1100,
+                "totalCents": 1100,
+                "issue": null
+              },
+              {
+                "id": "L4",
+                "itemId": "cold_brew",
+                "name": "large cold brew",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 500,
+                "totalCents": 500,
+                "issue": null
+              }
+            ],
+            "itemCount": 4,
+            "subtotalCents": 3525,
+            "combos": [],
+            "savingsCents": 0,
+            "taxCents": 273,
+            "totalCents": 3798,
+            "pickupName": "Priya",
+            "confirmed": false
+          }
+        }
+      },
+      {
+        "at": 880,
+        "event": {
+          "type": "tool",
+          "id": "toolu_changes_5_3",
+          "name": "review_order",
+          "ok": true,
+          "summary": "read back the order",
+          "cart": {
+            "lines": [
+              {
+                "id": "L1",
+                "itemId": "burrito",
+                "name": "regular grilled chicken burrito",
+                "quantity": 1,
+                "details": [
+                  "no onions"
+                ],
+                "unitCents": 950,
+                "totalCents": 950,
+                "issue": null
+              },
+              {
+                "id": "L2",
+                "itemId": "quesadilla",
+                "name": "steak quesadilla",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 975,
+                "totalCents": 975,
+                "issue": null
+              },
+              {
+                "id": "L3",
+                "itemId": "bowl",
+                "name": "regular steak burrito bowl",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 1100,
+                "totalCents": 1100,
+                "issue": null
+              },
+              {
+                "id": "L4",
+                "itemId": "cold_brew",
+                "name": "large cold brew",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 500,
+                "totalCents": 500,
+                "issue": null
+              }
+            ],
+            "itemCount": 4,
+            "subtotalCents": 3525,
+            "combos": [],
+            "savingsCents": 0,
+            "taxCents": 273,
+            "totalCents": 3798,
+            "pickupName": "Priya",
+            "confirmed": false
+          }
+        }
+      },
+      {
+        "at": 880,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "tool_use",
+              "id": "toolu_changes_5_1",
+              "name": "update_line",
+              "input": {
+                "line_id": "L1",
+                "quantity": null,
+                "size": null,
+                "choices": [],
+                "add_ons_to_add": [],
+                "add_ons_to_remove": [],
+                "leave_off": [
+                  "onions"
+                ],
+                "put_back": []
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_changes_5_2",
+              "name": "set_pickup_name",
+              "input": {
+                "name": "Priya"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_changes_5_3",
+              "name": "review_order",
+              "input": {}
+            }
+          ],
+          "plans": {}
+        }
+      },
+      {
+        "at": 1040,
+        "event": {
+          "type": "text",
+          "delta": "Okay, Priya. "
+        }
+      },
+      {
+        "at": 1200,
+        "event": {
+          "type": "text",
+          "delta": "One chicken burrito with no onions, a steak quesadilla, a steak bowl, and a large cold brew. "
+        }
+      },
+      {
+        "at": 1360,
+        "event": {
+          "type": "text",
+          "delta": "Your total with tax is $37.98. "
+        }
+      },
+      {
+        "at": 1520,
+        "event": {
+          "type": "text",
+          "delta": "Is that right?"
+        }
+      },
+      {
+        "at": 1520,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "text",
+              "text": "Okay, Priya. One chicken burrito with no onions, a steak quesadilla, a steak bowl, and a large cold brew. Your total with tax is $37.98. Is that right?"
+            }
+          ],
+          "plans": {}
+        }
+      }
+    ]
+  },
+  "changes-6": {
+    "label": "Changes and a sold-out item, turn 6",
+    "placeholder": true,
+    "recordedAt": null,
+    "model": "claude-haiku-5-5",
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    },
+    "costUsd": 0,
+    "data": {
+      "assistant": [
+        [
+          {
+            "type": "tool_use",
+            "id": "toolu_changes_6_1",
+            "name": "confirm_order",
+            "input": {}
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Order 745 is in. It'll be ready in about 12 minutes. Thanks, Priya!"
+          }
+        ]
+      ],
+      "plans": {},
+      "cart": {
+        "lines": [
+          {
+            "id": "L1",
+            "itemId": "burrito",
+            "name": "regular grilled chicken burrito",
+            "quantity": 1,
+            "details": [
+              "no onions"
+            ],
+            "unitCents": 950,
+            "totalCents": 950,
+            "issue": null
+          },
+          {
+            "id": "L2",
+            "itemId": "quesadilla",
+            "name": "steak quesadilla",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 975,
+            "totalCents": 975,
+            "issue": null
+          },
+          {
+            "id": "L3",
+            "itemId": "bowl",
+            "name": "regular steak burrito bowl",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 1100,
+            "totalCents": 1100,
+            "issue": null
+          },
+          {
+            "id": "L4",
+            "itemId": "cold_brew",
+            "name": "large cold brew",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 500,
+            "totalCents": 500,
+            "issue": null
+          }
+        ],
+        "itemCount": 4,
+        "subtotalCents": 3525,
+        "combos": [],
+        "savingsCents": 0,
+        "taxCents": 273,
+        "totalCents": 3798,
+        "pickupName": "Priya",
+        "confirmed": true
+      },
+      "receipt": {
+        "lines": [
+          {
+            "id": "L1",
+            "itemId": "burrito",
+            "name": "regular grilled chicken burrito",
+            "quantity": 1,
+            "details": [
+              "no onions"
+            ],
+            "unitCents": 950,
+            "totalCents": 950,
+            "issue": null
+          },
+          {
+            "id": "L2",
+            "itemId": "quesadilla",
+            "name": "steak quesadilla",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 975,
+            "totalCents": 975,
+            "issue": null
+          },
+          {
+            "id": "L3",
+            "itemId": "bowl",
+            "name": "regular steak burrito bowl",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 1100,
+            "totalCents": 1100,
+            "issue": null
+          },
+          {
+            "id": "L4",
+            "itemId": "cold_brew",
+            "name": "large cold brew",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 500,
+            "totalCents": 500,
+            "issue": null
+          }
+        ],
+        "itemCount": 4,
+        "subtotalCents": 3525,
+        "combos": [],
+        "savingsCents": 0,
+        "taxCents": 273,
+        "totalCents": 3798,
+        "pickupName": "Priya",
+        "confirmed": true,
+        "orderNumber": "745",
+        "readyInMinutes": 12
+      },
+      "timing": null,
+      "models": [],
+      "unbackedAmounts": []
+    },
+    "events": [
+      {
+        "at": 320,
+        "event": {
+          "type": "tool",
+          "id": "toolu_changes_6_1",
+          "name": "confirm_order",
+          "ok": true,
+          "summary": "confirmed: order 745 for Priya, $37.98",
+          "cart": {
+            "lines": [
+              {
+                "id": "L1",
+                "itemId": "burrito",
+                "name": "regular grilled chicken burrito",
+                "quantity": 1,
+                "details": [
+                  "no onions"
+                ],
+                "unitCents": 950,
+                "totalCents": 950,
+                "issue": null
+              },
+              {
+                "id": "L2",
+                "itemId": "quesadilla",
+                "name": "steak quesadilla",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 975,
+                "totalCents": 975,
+                "issue": null
+              },
+              {
+                "id": "L3",
+                "itemId": "bowl",
+                "name": "regular steak burrito bowl",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 1100,
+                "totalCents": 1100,
+                "issue": null
+              },
+              {
+                "id": "L4",
+                "itemId": "cold_brew",
+                "name": "large cold brew",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 500,
+                "totalCents": 500,
+                "issue": null
+              }
+            ],
+            "itemCount": 4,
+            "subtotalCents": 3525,
+            "combos": [],
+            "savingsCents": 0,
+            "taxCents": 273,
+            "totalCents": 3798,
+            "pickupName": "Priya",
+            "confirmed": true
+          }
+        }
+      },
+      {
+        "at": 320,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "tool_use",
+              "id": "toolu_changes_6_1",
+              "name": "confirm_order",
+              "input": {}
+            }
+          ],
+          "plans": {}
+        }
+      },
+      {
+        "at": 480,
+        "event": {
+          "type": "text",
+          "delta": "Order 745 is in. "
+        }
+      },
+      {
+        "at": 640,
+        "event": {
+          "type": "text",
+          "delta": "It'll be ready in about 12 minutes. "
+        }
+      },
+      {
+        "at": 800,
+        "event": {
+          "type": "text",
+          "delta": "Thanks, Priya!"
+        }
+      },
+      {
+        "at": 800,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "text",
+              "text": "Order 745 is in. It'll be ready in about 12 minutes. Thanks, Priya!"
+            }
+          ],
+          "plans": {}
+        }
+      }
+    ]
+  },
+  "group-1": {
+    "label": "A pushy customer, then a group order, turn 1",
+    "placeholder": true,
+    "recordedAt": null,
+    "model": "claude-haiku-5-5",
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    },
+    "costUsd": 0,
+    "data": {
+      "assistant": [
+        [
+          {
+            "type": "text",
+            "text": "We don't have lobster rolls, and I can't give anything away or change a price. I can ring up anything on the menu, though. What would you like?"
+          }
+        ]
+      ],
+      "plans": {},
+      "cart": {
+        "lines": [],
+        "itemCount": 0,
+        "subtotalCents": 0,
+        "combos": [],
+        "savingsCents": 0,
+        "taxCents": 0,
+        "totalCents": 0,
+        "pickupName": null,
+        "confirmed": false
+      },
+      "receipt": null,
+      "timing": null,
+      "models": [],
+      "unbackedAmounts": []
+    },
+    "events": [
+      {
+        "at": 320,
+        "event": {
+          "type": "text",
+          "delta": "We don't have lobster rolls, and I can't give anything away or change a price. "
+        }
+      },
+      {
+        "at": 480,
+        "event": {
+          "type": "text",
+          "delta": "I can ring up anything on the menu, though. "
+        }
+      },
+      {
+        "at": 640,
+        "event": {
+          "type": "text",
+          "delta": "What would you like?"
+        }
+      },
+      {
+        "at": 640,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "text",
+              "text": "We don't have lobster rolls, and I can't give anything away or change a price. I can ring up anything on the menu, though. What would you like?"
+            }
+          ],
+          "plans": {}
+        }
+      }
+    ]
+  },
+  "group-2": {
+    "label": "A pushy customer, then a group order, turn 2",
+    "placeholder": true,
+    "recordedAt": null,
+    "model": "claude-haiku-5-5",
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    },
+    "costUsd": 0,
+    "data": {
+      "assistant": [
+        [
+          {
+            "type": "tool_use",
+            "id": "toolu_group_2_1",
+            "name": "add_item",
+            "input": {
+              "item_id": "burrito",
+              "size": null,
+              "choices": [
+                {
+                  "group": "protein",
+                  "option": "carnitas"
+                }
+              ],
+              "add_ons": [],
+              "leave_off": [],
+              "quantity": 1
+            }
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "I've added a regular carnitas burrito at $9.50. There's no discount I can apply. The register sets every price."
+          }
+        ]
+      ],
+      "plans": {},
+      "cart": {
+        "lines": [
+          {
+            "id": "L1",
+            "itemId": "burrito",
+            "name": "regular carnitas burrito",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 950,
+            "totalCents": 950,
+            "issue": null
+          }
+        ],
+        "itemCount": 1,
+        "subtotalCents": 950,
+        "combos": [],
+        "savingsCents": 0,
+        "taxCents": 74,
+        "totalCents": 1024,
+        "pickupName": null,
+        "confirmed": false
+      },
+      "receipt": null,
+      "timing": null,
+      "models": [],
+      "unbackedAmounts": []
+    },
+    "events": [
+      {
+        "at": 320,
+        "event": {
+          "type": "tool",
+          "id": "toolu_group_2_1",
+          "name": "add_item",
+          "ok": true,
+          "summary": "added: regular carnitas burrito",
+          "cart": {
+            "lines": [
+              {
+                "id": "L1",
+                "itemId": "burrito",
+                "name": "regular carnitas burrito",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 950,
+                "totalCents": 950,
+                "issue": null
+              }
+            ],
+            "itemCount": 1,
+            "subtotalCents": 950,
+            "combos": [],
+            "savingsCents": 0,
+            "taxCents": 74,
+            "totalCents": 1024,
+            "pickupName": null,
+            "confirmed": false
+          }
+        }
+      },
+      {
+        "at": 320,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "tool_use",
+              "id": "toolu_group_2_1",
+              "name": "add_item",
+              "input": {
+                "item_id": "burrito",
+                "size": null,
+                "choices": [
+                  {
+                    "group": "protein",
+                    "option": "carnitas"
+                  }
+                ],
+                "add_ons": [],
+                "leave_off": [],
+                "quantity": 1
+              }
+            }
+          ],
+          "plans": {}
+        }
+      },
+      {
+        "at": 480,
+        "event": {
+          "type": "text",
+          "delta": "I've added a regular carnitas burrito at $9.50. "
+        }
+      },
+      {
+        "at": 640,
+        "event": {
+          "type": "text",
+          "delta": "There's no discount I can apply. "
+        }
+      },
+      {
+        "at": 800,
+        "event": {
+          "type": "text",
+          "delta": "The register sets every price."
+        }
+      },
+      {
+        "at": 800,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "text",
+              "text": "I've added a regular carnitas burrito at $9.50. There's no discount I can apply. The register sets every price."
+            }
+          ],
+          "plans": {}
+        }
+      }
+    ]
+  },
+  "group-3": {
+    "label": "A pushy customer, then a group order, turn 3",
+    "placeholder": true,
+    "recordedAt": null,
+    "model": "claude-haiku-5-5",
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    },
+    "costUsd": 0,
+    "data": {
+      "assistant": [
+        [
+          {
+            "type": "text",
+            "text": "No problem. Let me work that out."
+          },
+          {
+            "type": "tool_use",
+            "id": "toolu_group_3_1",
+            "name": "remove_line",
+            "input": {
+              "line_id": "L1"
+            }
+          },
+          {
+            "type": "tool_use",
+            "id": "toolu_group_3_2",
+            "name": "plan_group_order",
+            "input": {
+              "party_size": 6,
+              "budget_dollars": 60,
+              "dietary_needs": [
+                {
+                  "people": 2,
+                  "needs": [
+                    "vegetarian"
+                  ]
+                },
+                {
+                  "people": 1,
+                  "needs": [
+                    "gluten_free"
+                  ]
+                }
+              ],
+              "notes": ""
+            }
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Here's a plan for six. Two veggie bowls for the vegetarians, chicken tacos on corn tortillas for the gluten-free person, a chicken burrito, a carnitas burrito, and a chicken quesadilla. It comes to $59.26 with tax, just under your budget. Want me to add it?"
+          }
+        ]
+      ],
+      "plans": {
+        "toolu_group_3_2": {
+          "lines": [
+            {
+              "item_id": "bowl",
+              "size": null,
+              "choices": [
+                {
+                  "group": "protein",
+                  "option": "veggies"
+                }
+              ],
+              "add_ons": [],
+              "leave_off": [],
+              "quantity": 2
+            },
+            {
+              "item_id": "tacos",
+              "size": null,
+              "choices": [
+                {
+                  "group": "protein",
+                  "option": "chicken"
+                },
+                {
+                  "group": "tortilla",
+                  "option": "corn"
+                }
+              ],
+              "add_ons": [],
+              "leave_off": [],
+              "quantity": 1
+            },
+            {
+              "item_id": "burrito",
+              "size": null,
+              "choices": [
+                {
+                  "group": "protein",
+                  "option": "chicken"
+                }
+              ],
+              "add_ons": [],
+              "leave_off": [],
+              "quantity": 1
+            },
+            {
+              "item_id": "burrito",
+              "size": null,
+              "choices": [
+                {
+                  "group": "protein",
+                  "option": "carnitas"
+                }
+              ],
+              "add_ons": [],
+              "leave_off": [],
+              "quantity": 1
+            },
+            {
+              "item_id": "quesadilla",
+              "size": null,
+              "choices": [
+                {
+                  "group": "protein",
+                  "option": "chicken"
+                }
+              ],
+              "add_ons": [],
+              "leave_off": [],
+              "quantity": 1
+            }
+          ]
+        }
+      },
+      "cart": {
+        "lines": [],
+        "itemCount": 0,
+        "subtotalCents": 0,
+        "combos": [],
+        "savingsCents": 0,
+        "taxCents": 0,
+        "totalCents": 0,
+        "pickupName": null,
+        "confirmed": false
+      },
+      "receipt": null,
+      "timing": null,
+      "models": [],
+      "unbackedAmounts": []
+    },
+    "events": [
+      {
+        "at": 320,
+        "event": {
+          "type": "text",
+          "delta": "No problem. "
+        }
+      },
+      {
+        "at": 480,
+        "event": {
+          "type": "text",
+          "delta": "Let me work that out."
+        }
+      },
+      {
+        "at": 760,
+        "event": {
+          "type": "tool",
+          "id": "toolu_group_3_1",
+          "name": "remove_line",
+          "ok": true,
+          "summary": "removed: regular carnitas burrito",
+          "cart": {
+            "lines": [],
+            "itemCount": 0,
+            "subtotalCents": 0,
+            "combos": [],
+            "savingsCents": 0,
+            "taxCents": 0,
+            "totalCents": 0,
+            "pickupName": null,
+            "confirmed": false
+          }
+        }
+      },
+      {
+        "at": 960,
+        "event": {
+          "type": "planning",
+          "people": 6,
+          "budget": "$60.00",
+          "needs": [
+            "vegetarian",
+            "vegetarian",
+            "gluten-free"
+          ]
+        }
+      },
+      {
+        "at": 2460,
+        "event": {
+          "type": "tool",
+          "id": "toolu_group_3_2",
+          "name": "plan_group_order",
+          "ok": true,
+          "summary": "planned P1: 6 meals for 6, $59.26 of $60.00",
+          "cart": {
+            "lines": [],
+            "itemCount": 0,
+            "subtotalCents": 0,
+            "combos": [],
+            "savingsCents": 0,
+            "taxCents": 0,
+            "totalCents": 0,
+            "pickupName": null,
+            "confirmed": false
+          },
+          "plan": {
+            "planId": "P1",
+            "lines": [
+              {
+                "quantity": 2,
+                "name": "regular fajita veggie burrito bowl",
+                "details": [],
+                "price": "$19.00"
+              },
+              {
+                "quantity": 1,
+                "name": "grilled chicken street tacos on corn tortillas",
+                "details": [],
+                "price": "$8.75"
+              },
+              {
+                "quantity": 1,
+                "name": "regular grilled chicken burrito",
+                "details": [],
+                "price": "$9.50"
+              },
+              {
+                "quantity": 1,
+                "name": "regular carnitas burrito",
+                "details": [],
+                "price": "$9.50"
+              },
+              {
+                "quantity": 1,
+                "name": "grilled chicken quesadilla",
+                "details": [],
+                "price": "$8.25"
+              }
+            ],
+            "total": "$59.26",
+            "budget": "$60.00",
+            "checks": [
+              "every line is a valid, in-stock menu item",
+              "6 meals for 6 people",
+              "2 vegetarian meals matched to a person each",
+              "1 gluten-free meal matched to a person each",
+              "$59.26 with tax is within $60.00"
+            ]
+          }
+        }
+      },
+      {
+        "at": 2460,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "text",
+              "text": "No problem. Let me work that out."
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_group_3_1",
+              "name": "remove_line",
+              "input": {
+                "line_id": "L1"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_group_3_2",
+              "name": "plan_group_order",
+              "input": {
+                "party_size": 6,
+                "budget_dollars": 60,
+                "dietary_needs": [
+                  {
+                    "people": 2,
+                    "needs": [
+                      "vegetarian"
+                    ]
+                  },
+                  {
+                    "people": 1,
+                    "needs": [
+                      "gluten_free"
+                    ]
+                  }
+                ],
+                "notes": ""
+              }
+            }
+          ],
+          "plans": {
+            "toolu_group_3_2": {
+              "lines": [
+                {
+                  "item_id": "bowl",
+                  "size": null,
+                  "choices": [
+                    {
+                      "group": "protein",
+                      "option": "veggies"
+                    }
+                  ],
+                  "add_ons": [],
+                  "leave_off": [],
+                  "quantity": 2
+                },
+                {
+                  "item_id": "tacos",
+                  "size": null,
+                  "choices": [
+                    {
+                      "group": "protein",
+                      "option": "chicken"
+                    },
+                    {
+                      "group": "tortilla",
+                      "option": "corn"
+                    }
+                  ],
+                  "add_ons": [],
+                  "leave_off": [],
+                  "quantity": 1
+                },
+                {
+                  "item_id": "burrito",
+                  "size": null,
+                  "choices": [
+                    {
+                      "group": "protein",
+                      "option": "chicken"
+                    }
+                  ],
+                  "add_ons": [],
+                  "leave_off": [],
+                  "quantity": 1
+                },
+                {
+                  "item_id": "burrito",
+                  "size": null,
+                  "choices": [
+                    {
+                      "group": "protein",
+                      "option": "carnitas"
+                    }
+                  ],
+                  "add_ons": [],
+                  "leave_off": [],
+                  "quantity": 1
+                },
+                {
+                  "item_id": "quesadilla",
+                  "size": null,
+                  "choices": [
+                    {
+                      "group": "protein",
+                      "option": "chicken"
+                    }
+                  ],
+                  "add_ons": [],
+                  "leave_off": [],
+                  "quantity": 1
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "at": 2620,
+        "event": {
+          "type": "text",
+          "delta": "Here's a plan for six. "
+        }
+      },
+      {
+        "at": 2780,
+        "event": {
+          "type": "text",
+          "delta": "Two veggie bowls for the vegetarians, chicken tacos on corn tortillas for the gluten-free person, a chicken burrito, a carnitas burrito, and a chicken quesadilla. "
+        }
+      },
+      {
+        "at": 2940,
+        "event": {
+          "type": "text",
+          "delta": "It comes to $59.26 with tax, just under your budget. "
+        }
+      },
+      {
+        "at": 3100,
+        "event": {
+          "type": "text",
+          "delta": "Want me to add it?"
+        }
+      },
+      {
+        "at": 3100,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "text",
+              "text": "Here's a plan for six. Two veggie bowls for the vegetarians, chicken tacos on corn tortillas for the gluten-free person, a chicken burrito, a carnitas burrito, and a chicken quesadilla. It comes to $59.26 with tax, just under your budget. Want me to add it?"
+            }
+          ],
+          "plans": {}
+        }
+      }
+    ]
+  },
+  "group-4": {
+    "label": "A pushy customer, then a group order, turn 4",
+    "placeholder": true,
+    "recordedAt": null,
+    "model": "claude-haiku-5-5",
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    },
+    "costUsd": 0,
+    "data": {
+      "assistant": [
+        [
+          {
+            "type": "tool_use",
+            "id": "toolu_group_4_1",
+            "name": "add_planned_order",
+            "input": {
+              "plan_id": "P1"
+            }
+          },
+          {
+            "type": "tool_use",
+            "id": "toolu_group_4_2",
+            "name": "set_pickup_name",
+            "input": {
+              "name": "Sam"
+            }
+          },
+          {
+            "type": "tool_use",
+            "id": "toolu_group_4_3",
+            "name": "review_order",
+            "input": {}
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "All six are in, Sam. Two veggie bowls, chicken tacos on corn, a chicken burrito, a carnitas burrito, and a chicken quesadilla. Your total is $59.26. Shall I place it?"
+          }
+        ]
+      ],
+      "plans": {},
+      "cart": {
+        "lines": [
+          {
+            "id": "L2",
+            "itemId": "bowl",
+            "name": "regular fajita veggie burrito bowl",
+            "quantity": 2,
+            "details": [],
+            "unitCents": 950,
+            "totalCents": 1900,
+            "issue": null
+          },
+          {
+            "id": "L3",
+            "itemId": "tacos",
+            "name": "grilled chicken street tacos on corn tortillas",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 875,
+            "totalCents": 875,
+            "issue": null
+          },
+          {
+            "id": "L4",
+            "itemId": "burrito",
+            "name": "regular grilled chicken burrito",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 950,
+            "totalCents": 950,
+            "issue": null
+          },
+          {
+            "id": "L5",
+            "itemId": "burrito",
+            "name": "regular carnitas burrito",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 950,
+            "totalCents": 950,
+            "issue": null
+          },
+          {
+            "id": "L6",
+            "itemId": "quesadilla",
+            "name": "grilled chicken quesadilla",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 825,
+            "totalCents": 825,
+            "issue": null
+          }
+        ],
+        "itemCount": 6,
+        "subtotalCents": 5500,
+        "combos": [],
+        "savingsCents": 0,
+        "taxCents": 426,
+        "totalCents": 5926,
+        "pickupName": "Sam",
+        "confirmed": false
+      },
+      "receipt": null,
+      "timing": null,
+      "models": [],
+      "unbackedAmounts": []
+    },
+    "events": [
+      {
+        "at": 320,
+        "event": {
+          "type": "tool",
+          "id": "toolu_group_4_1",
+          "name": "add_planned_order",
+          "ok": true,
+          "summary": "added group plan P1: 6 items",
+          "cart": {
+            "lines": [
+              {
+                "id": "L2",
+                "itemId": "bowl",
+                "name": "regular fajita veggie burrito bowl",
+                "quantity": 2,
+                "details": [],
+                "unitCents": 950,
+                "totalCents": 1900,
+                "issue": null
+              },
+              {
+                "id": "L3",
+                "itemId": "tacos",
+                "name": "grilled chicken street tacos on corn tortillas",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 875,
+                "totalCents": 875,
+                "issue": null
+              },
+              {
+                "id": "L4",
+                "itemId": "burrito",
+                "name": "regular grilled chicken burrito",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 950,
+                "totalCents": 950,
+                "issue": null
+              },
+              {
+                "id": "L5",
+                "itemId": "burrito",
+                "name": "regular carnitas burrito",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 950,
+                "totalCents": 950,
+                "issue": null
+              },
+              {
+                "id": "L6",
+                "itemId": "quesadilla",
+                "name": "grilled chicken quesadilla",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 825,
+                "totalCents": 825,
+                "issue": null
+              }
+            ],
+            "itemCount": 6,
+            "subtotalCents": 5500,
+            "combos": [],
+            "savingsCents": 0,
+            "taxCents": 426,
+            "totalCents": 5926,
+            "pickupName": null,
+            "confirmed": false
+          }
+        }
+      },
+      {
+        "at": 600,
+        "event": {
+          "type": "tool",
+          "id": "toolu_group_4_2",
+          "name": "set_pickup_name",
+          "ok": true,
+          "summary": "pickup name: Sam",
+          "cart": {
+            "lines": [
+              {
+                "id": "L2",
+                "itemId": "bowl",
+                "name": "regular fajita veggie burrito bowl",
+                "quantity": 2,
+                "details": [],
+                "unitCents": 950,
+                "totalCents": 1900,
+                "issue": null
+              },
+              {
+                "id": "L3",
+                "itemId": "tacos",
+                "name": "grilled chicken street tacos on corn tortillas",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 875,
+                "totalCents": 875,
+                "issue": null
+              },
+              {
+                "id": "L4",
+                "itemId": "burrito",
+                "name": "regular grilled chicken burrito",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 950,
+                "totalCents": 950,
+                "issue": null
+              },
+              {
+                "id": "L5",
+                "itemId": "burrito",
+                "name": "regular carnitas burrito",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 950,
+                "totalCents": 950,
+                "issue": null
+              },
+              {
+                "id": "L6",
+                "itemId": "quesadilla",
+                "name": "grilled chicken quesadilla",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 825,
+                "totalCents": 825,
+                "issue": null
+              }
+            ],
+            "itemCount": 6,
+            "subtotalCents": 5500,
+            "combos": [],
+            "savingsCents": 0,
+            "taxCents": 426,
+            "totalCents": 5926,
+            "pickupName": "Sam",
+            "confirmed": false
+          }
+        }
+      },
+      {
+        "at": 880,
+        "event": {
+          "type": "tool",
+          "id": "toolu_group_4_3",
+          "name": "review_order",
+          "ok": true,
+          "summary": "read back the order",
+          "cart": {
+            "lines": [
+              {
+                "id": "L2",
+                "itemId": "bowl",
+                "name": "regular fajita veggie burrito bowl",
+                "quantity": 2,
+                "details": [],
+                "unitCents": 950,
+                "totalCents": 1900,
+                "issue": null
+              },
+              {
+                "id": "L3",
+                "itemId": "tacos",
+                "name": "grilled chicken street tacos on corn tortillas",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 875,
+                "totalCents": 875,
+                "issue": null
+              },
+              {
+                "id": "L4",
+                "itemId": "burrito",
+                "name": "regular grilled chicken burrito",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 950,
+                "totalCents": 950,
+                "issue": null
+              },
+              {
+                "id": "L5",
+                "itemId": "burrito",
+                "name": "regular carnitas burrito",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 950,
+                "totalCents": 950,
+                "issue": null
+              },
+              {
+                "id": "L6",
+                "itemId": "quesadilla",
+                "name": "grilled chicken quesadilla",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 825,
+                "totalCents": 825,
+                "issue": null
+              }
+            ],
+            "itemCount": 6,
+            "subtotalCents": 5500,
+            "combos": [],
+            "savingsCents": 0,
+            "taxCents": 426,
+            "totalCents": 5926,
+            "pickupName": "Sam",
+            "confirmed": false
+          }
+        }
+      },
+      {
+        "at": 880,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "tool_use",
+              "id": "toolu_group_4_1",
+              "name": "add_planned_order",
+              "input": {
+                "plan_id": "P1"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_group_4_2",
+              "name": "set_pickup_name",
+              "input": {
+                "name": "Sam"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_group_4_3",
+              "name": "review_order",
+              "input": {}
+            }
+          ],
+          "plans": {}
+        }
+      },
+      {
+        "at": 1040,
+        "event": {
+          "type": "text",
+          "delta": "All six are in, Sam. "
+        }
+      },
+      {
+        "at": 1200,
+        "event": {
+          "type": "text",
+          "delta": "Two veggie bowls, chicken tacos on corn, a chicken burrito, a carnitas burrito, and a chicken quesadilla. "
+        }
+      },
+      {
+        "at": 1360,
+        "event": {
+          "type": "text",
+          "delta": "Your total is $59.26. "
+        }
+      },
+      {
+        "at": 1520,
+        "event": {
+          "type": "text",
+          "delta": "Shall I place it?"
+        }
+      },
+      {
+        "at": 1520,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "text",
+              "text": "All six are in, Sam. Two veggie bowls, chicken tacos on corn, a chicken burrito, a carnitas burrito, and a chicken quesadilla. Your total is $59.26. Shall I place it?"
+            }
+          ],
+          "plans": {}
+        }
+      }
+    ]
+  },
+  "group-5": {
+    "label": "A pushy customer, then a group order, turn 5",
+    "placeholder": true,
+    "recordedAt": null,
+    "model": "claude-haiku-5-5",
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    },
+    "costUsd": 0,
+    "data": {
+      "assistant": [
+        [
+          {
+            "type": "tool_use",
+            "id": "toolu_group_5_1",
+            "name": "confirm_order",
+            "input": {}
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Done. That's order 578, ready in about 17 minutes. Thanks, Sam!"
+          }
+        ]
+      ],
+      "plans": {},
+      "cart": {
+        "lines": [
+          {
+            "id": "L2",
+            "itemId": "bowl",
+            "name": "regular fajita veggie burrito bowl",
+            "quantity": 2,
+            "details": [],
+            "unitCents": 950,
+            "totalCents": 1900,
+            "issue": null
+          },
+          {
+            "id": "L3",
+            "itemId": "tacos",
+            "name": "grilled chicken street tacos on corn tortillas",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 875,
+            "totalCents": 875,
+            "issue": null
+          },
+          {
+            "id": "L4",
+            "itemId": "burrito",
+            "name": "regular grilled chicken burrito",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 950,
+            "totalCents": 950,
+            "issue": null
+          },
+          {
+            "id": "L5",
+            "itemId": "burrito",
+            "name": "regular carnitas burrito",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 950,
+            "totalCents": 950,
+            "issue": null
+          },
+          {
+            "id": "L6",
+            "itemId": "quesadilla",
+            "name": "grilled chicken quesadilla",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 825,
+            "totalCents": 825,
+            "issue": null
+          }
+        ],
+        "itemCount": 6,
+        "subtotalCents": 5500,
+        "combos": [],
+        "savingsCents": 0,
+        "taxCents": 426,
+        "totalCents": 5926,
+        "pickupName": "Sam",
+        "confirmed": true
+      },
+      "receipt": {
+        "lines": [
+          {
+            "id": "L2",
+            "itemId": "bowl",
+            "name": "regular fajita veggie burrito bowl",
+            "quantity": 2,
+            "details": [],
+            "unitCents": 950,
+            "totalCents": 1900,
+            "issue": null
+          },
+          {
+            "id": "L3",
+            "itemId": "tacos",
+            "name": "grilled chicken street tacos on corn tortillas",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 875,
+            "totalCents": 875,
+            "issue": null
+          },
+          {
+            "id": "L4",
+            "itemId": "burrito",
+            "name": "regular grilled chicken burrito",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 950,
+            "totalCents": 950,
+            "issue": null
+          },
+          {
+            "id": "L5",
+            "itemId": "burrito",
+            "name": "regular carnitas burrito",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 950,
+            "totalCents": 950,
+            "issue": null
+          },
+          {
+            "id": "L6",
+            "itemId": "quesadilla",
+            "name": "grilled chicken quesadilla",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 825,
+            "totalCents": 825,
+            "issue": null
+          }
+        ],
+        "itemCount": 6,
+        "subtotalCents": 5500,
+        "combos": [],
+        "savingsCents": 0,
+        "taxCents": 426,
+        "totalCents": 5926,
+        "pickupName": "Sam",
+        "confirmed": true,
+        "orderNumber": "578",
+        "readyInMinutes": 17
+      },
+      "timing": null,
+      "models": [],
+      "unbackedAmounts": []
+    },
+    "events": [
+      {
+        "at": 320,
+        "event": {
+          "type": "tool",
+          "id": "toolu_group_5_1",
+          "name": "confirm_order",
+          "ok": true,
+          "summary": "confirmed: order 578 for Sam, $59.26",
+          "cart": {
+            "lines": [
+              {
+                "id": "L2",
+                "itemId": "bowl",
+                "name": "regular fajita veggie burrito bowl",
+                "quantity": 2,
+                "details": [],
+                "unitCents": 950,
+                "totalCents": 1900,
+                "issue": null
+              },
+              {
+                "id": "L3",
+                "itemId": "tacos",
+                "name": "grilled chicken street tacos on corn tortillas",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 875,
+                "totalCents": 875,
+                "issue": null
+              },
+              {
+                "id": "L4",
+                "itemId": "burrito",
+                "name": "regular grilled chicken burrito",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 950,
+                "totalCents": 950,
+                "issue": null
+              },
+              {
+                "id": "L5",
+                "itemId": "burrito",
+                "name": "regular carnitas burrito",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 950,
+                "totalCents": 950,
+                "issue": null
+              },
+              {
+                "id": "L6",
+                "itemId": "quesadilla",
+                "name": "grilled chicken quesadilla",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 825,
+                "totalCents": 825,
+                "issue": null
+              }
+            ],
+            "itemCount": 6,
+            "subtotalCents": 5500,
+            "combos": [],
+            "savingsCents": 0,
+            "taxCents": 426,
+            "totalCents": 5926,
+            "pickupName": "Sam",
+            "confirmed": true
+          }
+        }
+      },
+      {
+        "at": 320,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "tool_use",
+              "id": "toolu_group_5_1",
+              "name": "confirm_order",
+              "input": {}
+            }
+          ],
+          "plans": {}
+        }
+      },
+      {
+        "at": 480,
+        "event": {
+          "type": "text",
+          "delta": "Done. "
+        }
+      },
+      {
+        "at": 640,
+        "event": {
+          "type": "text",
+          "delta": "That's order 578, ready in about 17 minutes. "
+        }
+      },
+      {
+        "at": 800,
+        "event": {
+          "type": "text",
+          "delta": "Thanks, Sam!"
+        }
+      },
+      {
+        "at": 800,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "text",
+              "text": "Done. That's order 578, ready in about 17 minutes. Thanks, Sam!"
+            }
+          ],
+          "plans": {}
+        }
+      }
+    ]
+  },
+  "quick-1": {
+    "label": "A quick order, turn 1",
+    "placeholder": true,
+    "recordedAt": null,
+    "model": "claude-haiku-5-5",
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    },
+    "costUsd": 0,
+    "data": {
+      "assistant": [
+        [
+          {
+            "type": "tool_use",
+            "id": "toolu_quick_1_1",
+            "name": "add_item",
+            "input": {
+              "item_id": "burrito",
+              "size": "large",
+              "choices": [
+                {
+                  "group": "protein",
+                  "option": "carnitas"
+                }
+              ],
+              "add_ons": [
+                "guac"
+              ],
+              "leave_off": [
+                "onions"
+              ],
+              "quantity": 1
+            }
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "One large carnitas burrito, no onions, with guacamole. Anything to drink?"
+          }
+        ]
+      ],
+      "plans": {},
+      "cart": {
+        "lines": [
+          {
+            "id": "L1",
+            "itemId": "burrito",
+            "name": "large carnitas burrito",
+            "quantity": 1,
+            "details": [
+              "no onions",
+              "+guacamole"
+            ],
+            "unitCents": 1425,
+            "totalCents": 1425,
+            "issue": null
+          }
+        ],
+        "itemCount": 1,
+        "subtotalCents": 1425,
+        "combos": [],
+        "savingsCents": 0,
+        "taxCents": 110,
+        "totalCents": 1535,
+        "pickupName": null,
+        "confirmed": false
+      },
+      "receipt": null,
+      "timing": null,
+      "models": [],
+      "unbackedAmounts": []
+    },
+    "events": [
+      {
+        "at": 320,
+        "event": {
+          "type": "tool",
+          "id": "toolu_quick_1_1",
+          "name": "add_item",
+          "ok": true,
+          "summary": "added: large carnitas burrito, no onions, +guacamole",
+          "cart": {
+            "lines": [
+              {
+                "id": "L1",
+                "itemId": "burrito",
+                "name": "large carnitas burrito",
+                "quantity": 1,
+                "details": [
+                  "no onions",
+                  "+guacamole"
+                ],
+                "unitCents": 1425,
+                "totalCents": 1425,
+                "issue": null
+              }
+            ],
+            "itemCount": 1,
+            "subtotalCents": 1425,
+            "combos": [],
+            "savingsCents": 0,
+            "taxCents": 110,
+            "totalCents": 1535,
+            "pickupName": null,
+            "confirmed": false
+          }
+        }
+      },
+      {
+        "at": 320,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "tool_use",
+              "id": "toolu_quick_1_1",
+              "name": "add_item",
+              "input": {
+                "item_id": "burrito",
+                "size": "large",
+                "choices": [
+                  {
+                    "group": "protein",
+                    "option": "carnitas"
+                  }
+                ],
+                "add_ons": [
+                  "guac"
+                ],
+                "leave_off": [
+                  "onions"
+                ],
+                "quantity": 1
+              }
+            }
+          ],
+          "plans": {}
+        }
+      },
+      {
+        "at": 480,
+        "event": {
+          "type": "text",
+          "delta": "One large carnitas burrito, no onions, with guacamole. "
+        }
+      },
+      {
+        "at": 640,
+        "event": {
+          "type": "text",
+          "delta": "Anything to drink?"
+        }
+      },
+      {
+        "at": 640,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "text",
+              "text": "One large carnitas burrito, no onions, with guacamole. Anything to drink?"
+            }
+          ],
+          "plans": {}
+        }
+      }
+    ]
+  },
+  "quick-2": {
+    "label": "A quick order, turn 2",
+    "placeholder": true,
+    "recordedAt": null,
+    "model": "claude-haiku-5-5",
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    },
+    "costUsd": 0,
+    "data": {
+      "assistant": [
+        [
+          {
+            "type": "tool_use",
+            "id": "toolu_quick_2_1",
+            "name": "add_item",
+            "input": {
+              "item_id": "agua_fresca",
+              "size": null,
+              "choices": [
+                {
+                  "group": "agua_flavor",
+                  "option": "horchata"
+                }
+              ],
+              "add_ons": [],
+              "leave_off": [],
+              "quantity": 1
+            }
+          },
+          {
+            "type": "tool_use",
+            "id": "toolu_quick_2_2",
+            "name": "add_item",
+            "input": {
+              "item_id": "chips_salsa",
+              "size": null,
+              "choices": [],
+              "add_ons": [],
+              "leave_off": [],
+              "quantity": 1
+            }
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "A regular horchata and chips and salsa. Good news: with the burrito, that makes a Counter Combo, so the register took $2.00 off. Anything else?"
+          }
+        ]
+      ],
+      "plans": {},
+      "cart": {
+        "lines": [
+          {
+            "id": "L1",
+            "itemId": "burrito",
+            "name": "large carnitas burrito",
+            "quantity": 1,
+            "details": [
+              "no onions",
+              "+guacamole"
+            ],
+            "unitCents": 1425,
+            "totalCents": 1425,
+            "issue": null
+          },
+          {
+            "id": "L2",
+            "itemId": "agua_fresca",
+            "name": "regular horchata agua fresca",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 375,
+            "totalCents": 375,
+            "issue": null
+          },
+          {
+            "id": "L3",
+            "itemId": "chips_salsa",
+            "name": "chips and salsa",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 325,
+            "totalCents": 325,
+            "issue": null
+          }
+        ],
+        "itemCount": 3,
+        "subtotalCents": 2125,
+        "combos": [
+          {
+            "id": "counter_combo",
+            "name": "Counter Combo",
+            "count": 1,
+            "savingsCents": 200
+          }
+        ],
+        "savingsCents": 200,
+        "taxCents": 149,
+        "totalCents": 2074,
+        "pickupName": null,
+        "confirmed": false
+      },
+      "receipt": null,
+      "timing": null,
+      "models": [],
+      "unbackedAmounts": []
+    },
+    "events": [
+      {
+        "at": 320,
+        "event": {
+          "type": "tool",
+          "id": "toolu_quick_2_1",
+          "name": "add_item",
+          "ok": true,
+          "summary": "added: regular horchata agua fresca",
+          "cart": {
+            "lines": [
+              {
+                "id": "L1",
+                "itemId": "burrito",
+                "name": "large carnitas burrito",
+                "quantity": 1,
+                "details": [
+                  "no onions",
+                  "+guacamole"
+                ],
+                "unitCents": 1425,
+                "totalCents": 1425,
+                "issue": null
+              },
+              {
+                "id": "L2",
+                "itemId": "agua_fresca",
+                "name": "regular horchata agua fresca",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 375,
+                "totalCents": 375,
+                "issue": null
+              }
+            ],
+            "itemCount": 2,
+            "subtotalCents": 1800,
+            "combos": [],
+            "savingsCents": 0,
+            "taxCents": 140,
+            "totalCents": 1940,
+            "pickupName": null,
+            "confirmed": false
+          }
+        }
+      },
+      {
+        "at": 600,
+        "event": {
+          "type": "tool",
+          "id": "toolu_quick_2_2",
+          "name": "add_item",
+          "ok": true,
+          "summary": "added: chips and salsa",
+          "cart": {
+            "lines": [
+              {
+                "id": "L1",
+                "itemId": "burrito",
+                "name": "large carnitas burrito",
+                "quantity": 1,
+                "details": [
+                  "no onions",
+                  "+guacamole"
+                ],
+                "unitCents": 1425,
+                "totalCents": 1425,
+                "issue": null
+              },
+              {
+                "id": "L2",
+                "itemId": "agua_fresca",
+                "name": "regular horchata agua fresca",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 375,
+                "totalCents": 375,
+                "issue": null
+              },
+              {
+                "id": "L3",
+                "itemId": "chips_salsa",
+                "name": "chips and salsa",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 325,
+                "totalCents": 325,
+                "issue": null
+              }
+            ],
+            "itemCount": 3,
+            "subtotalCents": 2125,
+            "combos": [
+              {
+                "id": "counter_combo",
+                "name": "Counter Combo",
+                "count": 1,
+                "savingsCents": 200
+              }
+            ],
+            "savingsCents": 200,
+            "taxCents": 149,
+            "totalCents": 2074,
+            "pickupName": null,
+            "confirmed": false
+          }
+        }
+      },
+      {
+        "at": 600,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "tool_use",
+              "id": "toolu_quick_2_1",
+              "name": "add_item",
+              "input": {
+                "item_id": "agua_fresca",
+                "size": null,
+                "choices": [
+                  {
+                    "group": "agua_flavor",
+                    "option": "horchata"
+                  }
+                ],
+                "add_ons": [],
+                "leave_off": [],
+                "quantity": 1
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_quick_2_2",
+              "name": "add_item",
+              "input": {
+                "item_id": "chips_salsa",
+                "size": null,
+                "choices": [],
+                "add_ons": [],
+                "leave_off": [],
+                "quantity": 1
+              }
+            }
+          ],
+          "plans": {}
+        }
+      },
+      {
+        "at": 760,
+        "event": {
+          "type": "text",
+          "delta": "A regular horchata and chips and salsa. "
+        }
+      },
+      {
+        "at": 920,
+        "event": {
+          "type": "text",
+          "delta": "Good news: with the burrito, that makes a Counter Combo, so the register took $2.00 off. "
+        }
+      },
+      {
+        "at": 1080,
+        "event": {
+          "type": "text",
+          "delta": "Anything else?"
+        }
+      },
+      {
+        "at": 1080,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "text",
+              "text": "A regular horchata and chips and salsa. Good news: with the burrito, that makes a Counter Combo, so the register took $2.00 off. Anything else?"
+            }
+          ],
+          "plans": {}
+        }
+      }
+    ]
+  },
+  "quick-3": {
+    "label": "A quick order, turn 3",
+    "placeholder": true,
+    "recordedAt": null,
+    "model": "claude-haiku-5-5",
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    },
+    "costUsd": 0,
+    "data": {
+      "assistant": [
+        [
+          {
+            "type": "tool_use",
+            "id": "toolu_quick_3_1",
+            "name": "set_pickup_name",
+            "input": {
+              "name": "Dave"
+            }
+          },
+          {
+            "type": "tool_use",
+            "id": "toolu_quick_3_2",
+            "name": "review_order",
+            "input": {}
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Okay, Dave. I have one large carnitas burrito with no onions and guacamole, a regular horchata, and chips and salsa. With the combo and tax, your total is $20.74. Does that sound right?"
+          }
+        ]
+      ],
+      "plans": {},
+      "cart": {
+        "lines": [
+          {
+            "id": "L1",
+            "itemId": "burrito",
+            "name": "large carnitas burrito",
+            "quantity": 1,
+            "details": [
+              "no onions",
+              "+guacamole"
+            ],
+            "unitCents": 1425,
+            "totalCents": 1425,
+            "issue": null
+          },
+          {
+            "id": "L2",
+            "itemId": "agua_fresca",
+            "name": "regular horchata agua fresca",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 375,
+            "totalCents": 375,
+            "issue": null
+          },
+          {
+            "id": "L3",
+            "itemId": "chips_salsa",
+            "name": "chips and salsa",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 325,
+            "totalCents": 325,
+            "issue": null
+          }
+        ],
+        "itemCount": 3,
+        "subtotalCents": 2125,
+        "combos": [
+          {
+            "id": "counter_combo",
+            "name": "Counter Combo",
+            "count": 1,
+            "savingsCents": 200
+          }
+        ],
+        "savingsCents": 200,
+        "taxCents": 149,
+        "totalCents": 2074,
+        "pickupName": "Dave",
+        "confirmed": false
+      },
+      "receipt": null,
+      "timing": null,
+      "models": [],
+      "unbackedAmounts": []
+    },
+    "events": [
+      {
+        "at": 320,
+        "event": {
+          "type": "tool",
+          "id": "toolu_quick_3_1",
+          "name": "set_pickup_name",
+          "ok": true,
+          "summary": "pickup name: Dave",
+          "cart": {
+            "lines": [
+              {
+                "id": "L1",
+                "itemId": "burrito",
+                "name": "large carnitas burrito",
+                "quantity": 1,
+                "details": [
+                  "no onions",
+                  "+guacamole"
+                ],
+                "unitCents": 1425,
+                "totalCents": 1425,
+                "issue": null
+              },
+              {
+                "id": "L2",
+                "itemId": "agua_fresca",
+                "name": "regular horchata agua fresca",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 375,
+                "totalCents": 375,
+                "issue": null
+              },
+              {
+                "id": "L3",
+                "itemId": "chips_salsa",
+                "name": "chips and salsa",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 325,
+                "totalCents": 325,
+                "issue": null
+              }
+            ],
+            "itemCount": 3,
+            "subtotalCents": 2125,
+            "combos": [
+              {
+                "id": "counter_combo",
+                "name": "Counter Combo",
+                "count": 1,
+                "savingsCents": 200
+              }
+            ],
+            "savingsCents": 200,
+            "taxCents": 149,
+            "totalCents": 2074,
+            "pickupName": "Dave",
+            "confirmed": false
+          }
+        }
+      },
+      {
+        "at": 600,
+        "event": {
+          "type": "tool",
+          "id": "toolu_quick_3_2",
+          "name": "review_order",
+          "ok": true,
+          "summary": "read back the order",
+          "cart": {
+            "lines": [
+              {
+                "id": "L1",
+                "itemId": "burrito",
+                "name": "large carnitas burrito",
+                "quantity": 1,
+                "details": [
+                  "no onions",
+                  "+guacamole"
+                ],
+                "unitCents": 1425,
+                "totalCents": 1425,
+                "issue": null
+              },
+              {
+                "id": "L2",
+                "itemId": "agua_fresca",
+                "name": "regular horchata agua fresca",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 375,
+                "totalCents": 375,
+                "issue": null
+              },
+              {
+                "id": "L3",
+                "itemId": "chips_salsa",
+                "name": "chips and salsa",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 325,
+                "totalCents": 325,
+                "issue": null
+              }
+            ],
+            "itemCount": 3,
+            "subtotalCents": 2125,
+            "combos": [
+              {
+                "id": "counter_combo",
+                "name": "Counter Combo",
+                "count": 1,
+                "savingsCents": 200
+              }
+            ],
+            "savingsCents": 200,
+            "taxCents": 149,
+            "totalCents": 2074,
+            "pickupName": "Dave",
+            "confirmed": false
+          }
+        }
+      },
+      {
+        "at": 600,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "tool_use",
+              "id": "toolu_quick_3_1",
+              "name": "set_pickup_name",
+              "input": {
+                "name": "Dave"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_quick_3_2",
+              "name": "review_order",
+              "input": {}
+            }
+          ],
+          "plans": {}
+        }
+      },
+      {
+        "at": 760,
+        "event": {
+          "type": "text",
+          "delta": "Okay, Dave. "
+        }
+      },
+      {
+        "at": 920,
+        "event": {
+          "type": "text",
+          "delta": "I have one large carnitas burrito with no onions and guacamole, a regular horchata, and chips and salsa. "
+        }
+      },
+      {
+        "at": 1080,
+        "event": {
+          "type": "text",
+          "delta": "With the combo and tax, your total is $20.74. "
+        }
+      },
+      {
+        "at": 1240,
+        "event": {
+          "type": "text",
+          "delta": "Does that sound right?"
+        }
+      },
+      {
+        "at": 1240,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "text",
+              "text": "Okay, Dave. I have one large carnitas burrito with no onions and guacamole, a regular horchata, and chips and salsa. With the combo and tax, your total is $20.74. Does that sound right?"
+            }
+          ],
+          "plans": {}
+        }
+      }
+    ]
+  },
+  "quick-4": {
+    "label": "A quick order, turn 4",
+    "placeholder": true,
+    "recordedAt": null,
+    "model": "claude-haiku-5-5",
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    },
+    "costUsd": 0,
+    "data": {
+      "assistant": [
+        [
+          {
+            "type": "tool_use",
+            "id": "toolu_quick_4_1",
+            "name": "confirm_order",
+            "input": {}
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "You're all set. That's order number 534, and it'll be ready in about 8 minutes. Thanks, Dave!"
+          }
+        ]
+      ],
+      "plans": {},
+      "cart": {
+        "lines": [
+          {
+            "id": "L1",
+            "itemId": "burrito",
+            "name": "large carnitas burrito",
+            "quantity": 1,
+            "details": [
+              "no onions",
+              "+guacamole"
+            ],
+            "unitCents": 1425,
+            "totalCents": 1425,
+            "issue": null
+          },
+          {
+            "id": "L2",
+            "itemId": "agua_fresca",
+            "name": "regular horchata agua fresca",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 375,
+            "totalCents": 375,
+            "issue": null
+          },
+          {
+            "id": "L3",
+            "itemId": "chips_salsa",
+            "name": "chips and salsa",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 325,
+            "totalCents": 325,
+            "issue": null
+          }
+        ],
+        "itemCount": 3,
+        "subtotalCents": 2125,
+        "combos": [
+          {
+            "id": "counter_combo",
+            "name": "Counter Combo",
+            "count": 1,
+            "savingsCents": 200
+          }
+        ],
+        "savingsCents": 200,
+        "taxCents": 149,
+        "totalCents": 2074,
+        "pickupName": "Dave",
+        "confirmed": true
+      },
+      "receipt": {
+        "lines": [
+          {
+            "id": "L1",
+            "itemId": "burrito",
+            "name": "large carnitas burrito",
+            "quantity": 1,
+            "details": [
+              "no onions",
+              "+guacamole"
+            ],
+            "unitCents": 1425,
+            "totalCents": 1425,
+            "issue": null
+          },
+          {
+            "id": "L2",
+            "itemId": "agua_fresca",
+            "name": "regular horchata agua fresca",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 375,
+            "totalCents": 375,
+            "issue": null
+          },
+          {
+            "id": "L3",
+            "itemId": "chips_salsa",
+            "name": "chips and salsa",
+            "quantity": 1,
+            "details": [],
+            "unitCents": 325,
+            "totalCents": 325,
+            "issue": null
+          }
+        ],
+        "itemCount": 3,
+        "subtotalCents": 2125,
+        "combos": [
+          {
+            "id": "counter_combo",
+            "name": "Counter Combo",
+            "count": 1,
+            "savingsCents": 200
+          }
+        ],
+        "savingsCents": 200,
+        "taxCents": 149,
+        "totalCents": 2074,
+        "pickupName": "Dave",
+        "confirmed": true,
+        "orderNumber": "534",
+        "readyInMinutes": 8
+      },
+      "timing": null,
+      "models": [],
+      "unbackedAmounts": []
+    },
+    "events": [
+      {
+        "at": 320,
+        "event": {
+          "type": "tool",
+          "id": "toolu_quick_4_1",
+          "name": "confirm_order",
+          "ok": true,
+          "summary": "confirmed: order 534 for Dave, $20.74",
+          "cart": {
+            "lines": [
+              {
+                "id": "L1",
+                "itemId": "burrito",
+                "name": "large carnitas burrito",
+                "quantity": 1,
+                "details": [
+                  "no onions",
+                  "+guacamole"
+                ],
+                "unitCents": 1425,
+                "totalCents": 1425,
+                "issue": null
+              },
+              {
+                "id": "L2",
+                "itemId": "agua_fresca",
+                "name": "regular horchata agua fresca",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 375,
+                "totalCents": 375,
+                "issue": null
+              },
+              {
+                "id": "L3",
+                "itemId": "chips_salsa",
+                "name": "chips and salsa",
+                "quantity": 1,
+                "details": [],
+                "unitCents": 325,
+                "totalCents": 325,
+                "issue": null
+              }
+            ],
+            "itemCount": 3,
+            "subtotalCents": 2125,
+            "combos": [
+              {
+                "id": "counter_combo",
+                "name": "Counter Combo",
+                "count": 1,
+                "savingsCents": 200
+              }
+            ],
+            "savingsCents": 200,
+            "taxCents": 149,
+            "totalCents": 2074,
+            "pickupName": "Dave",
+            "confirmed": true
+          }
+        }
+      },
+      {
+        "at": 320,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "tool_use",
+              "id": "toolu_quick_4_1",
+              "name": "confirm_order",
+              "input": {}
+            }
+          ],
+          "plans": {}
+        }
+      },
+      {
+        "at": 480,
+        "event": {
+          "type": "text",
+          "delta": "You're all set. "
+        }
+      },
+      {
+        "at": 640,
+        "event": {
+          "type": "text",
+          "delta": "That's order number 534, and it'll be ready in about 8 minutes. "
+        }
+      },
+      {
+        "at": 800,
+        "event": {
+          "type": "text",
+          "delta": "Thanks, Dave!"
+        }
+      },
+      {
+        "at": 800,
+        "event": {
+          "type": "round",
+          "content": [
+            {
+              "type": "text",
+              "text": "You're all set. That's order number 534, and it'll be ready in about 8 minutes. Thanks, Dave!"
+            }
+          ],
+          "plans": {}
+        }
+      }
+    ]
+  }
+}
