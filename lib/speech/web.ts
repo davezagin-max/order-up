@@ -193,7 +193,9 @@ export function pickVoices(voices: readonly VoiceInfo[]): {
 }
 
 /** If no start event arrives in this long, the engine is treated as silent. */
-const START_TIMEOUT_MS = 4000;
+const START_TIMEOUT_MS = 3000;
+/** Chrome can drop an utterance queued straight after a cancel, so leave a short gap. */
+const AFTER_CANCEL_MS = 80;
 
 function maxDurationMs(text: string): number {
   return 4000 + text.length * 110;
@@ -205,6 +207,7 @@ export class WebSpeechOutput implements SpeechOutput {
   // Chrome can drop an utterance's events if it is garbage collected mid-speech.
   private readonly keepAlive = new Set<SpeechSynthesisUtterance>();
   private unlocked = false;
+  private cancelledAt = 0;
 
   constructor() {
     // Chrome loads its voice list lazily; asking early means the first sentence gets the right voice.
@@ -263,14 +266,21 @@ export class WebSpeechOutput implements SpeechOutput {
 
       this.current = { settle };
       this.keepAlive.add(utterance);
-      synth.resume(); // Chrome's queue can be left paused by an earlier cancel.
-      synth.speak(utterance);
+      const start = () => {
+        if (settled) return; // Cancelled during the gap.
+        synth.resume(); // Chrome's queue can be left paused by an earlier cancel.
+        synth.speak(utterance);
+      };
+      const gap = AFTER_CANCEL_MS - (Date.now() - this.cancelledAt);
+      if (gap > 0) setTimeout(start, gap);
+      else start();
     });
   }
 
   cancel(): void {
     const current = this.current;
     this.current = null;
+    this.cancelledAt = Date.now();
     window.speechSynthesis.cancel();
     current?.settle("cancelled");
   }

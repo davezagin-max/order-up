@@ -346,6 +346,8 @@ export class CallSession {
 
   setSound(on: boolean): void {
     this.soundOn = on;
+    // Turning sound back on is a request to try the browser's voice again.
+    if (on) this.audioFailed = false;
     this.emit();
   }
 
@@ -414,6 +416,8 @@ export class CallSession {
     this.sampleId = null;
     this.spend = { costUsd: 0, turns: 0 };
     this.spoken.clear();
+    // One silent utterance turns the voice off for that call only; a new call tries again.
+    this.audioFailed = false;
     this.releaseIdle();
   }
 
@@ -628,50 +632,28 @@ export class CallSession {
     // Abandoned while in flight: `abandonFlight` already dealt with it.
     if (this.flight !== flight) return false;
 
-    if (!response.ok) {
-      this.flight = null;
-      this.liveLog = [];
-      this.liveCart = null;
-      this.planning = null;
-      // The turn never happened as far as the transcript goes, so the staff's changes go back in the queue.
-      this.pendingKitchen = [...kitchen, ...this.pendingKitchen];
-      this.dropUnstoredTools(flight);
-      this.captions = this.captions.map((caption) =>
-        caption.id === flight.customerCaptionId && caption.role === "customer"
-          ? { ...caption, unanswered: true }
-          : caption,
-      );
-      this.error = { kind: response.error.kind, message: response.error.message };
-      if (flight.captionId) {
-        this.updateAgent(flight.captionId, (caption) => ({
-          ...caption,
-          cutOff: true,
-          pending: "",
-        }));
-      }
-      if (this.timeline) {
-        this.timeline = { ...this.timeline, status: "failed", meta: response.meta ?? null };
-      }
-      if (response.meta?.mode === "live") this.addSpend(response.meta);
-      if (flight.turnNo !== null) {
-        this.dispatch({ type: "FAILED", turn: flight.turnNo, message: response.error.message });
-      } else {
-        this.emit();
-      }
-      return false;
-    }
+    if (!response.ok) return this.failTurn(flight, kitchen, response);
 
     flight.committed = true;
     flight.record.assistant = response.data.assistant;
     flight.record.plans = response.data.plans;
     this.turns.push(flight.record);
+    try {
+      this.derive();
+    } catch {
+      // The reply cannot be replayed into an order, so it is not kept.
+      this.turns.pop();
+      return this.failTurn(flight, kitchen, {
+        ok: false,
+        error: { kind: "server", message: "The reply could not be applied to the order." },
+      });
+    }
     this.addSentences(flight, flight.chunker.flush());
     if (flight.captionId)
       this.updateAgent(flight.captionId, (caption) => ({ ...caption, pending: "" }));
     this.liveLog = [];
     this.liveCart = null;
     this.planning = null;
-    this.derive();
     if (this.timeline) {
       this.timeline = {
         ...this.timeline,
@@ -689,6 +671,44 @@ export class CallSession {
     if (flight.turnNo !== null) this.dispatch({ type: "REPLY_DONE", turn: flight.turnNo });
     else this.emit();
     return true;
+  }
+
+  /** A turn that did not complete: it leaves the transcript and the staff's changes go back in the queue. */
+  private failTurn(
+    flight: Flight,
+    kitchen: KitchenChange[],
+    response: Extract<ApiResponse<TurnData>, { ok: false }>,
+  ): false {
+    this.flight = null;
+    this.liveLog = [];
+    this.liveCart = null;
+    this.planning = null;
+    // The turn never happened as far as the transcript goes, so the staff's changes go back in the queue.
+    this.pendingKitchen = [...kitchen, ...this.pendingKitchen];
+    this.dropUnstoredTools(flight);
+    this.captions = this.captions.map((caption) =>
+      caption.id === flight.customerCaptionId && caption.role === "customer"
+        ? { ...caption, unanswered: true }
+        : caption,
+    );
+    this.error = { kind: response.error.kind, message: response.error.message };
+    if (flight.captionId) {
+      this.updateAgent(flight.captionId, (caption) => ({
+        ...caption,
+        cutOff: true,
+        pending: "",
+      }));
+    }
+    if (this.timeline) {
+      this.timeline = { ...this.timeline, status: "failed", meta: response.meta ?? null };
+    }
+    if (response.meta?.mode === "live") this.addSpend(response.meta);
+    if (flight.turnNo !== null) {
+      this.dispatch({ type: "FAILED", turn: flight.turnNo, message: response.error.message });
+    } else {
+      this.emit();
+    }
+    return false;
   }
 
   private addSpend(meta: ApiMeta): void {
@@ -860,6 +880,7 @@ export class CallSession {
     const sample = findSample(id);
     if (!sample) return;
     this.clear();
+    this.unlockAudio();
     const run: SampleRun = { sample, cancelled: false, demoId: null };
     this.run = run;
     this.origin = "sample";

@@ -256,7 +256,16 @@ export async function runTurn(args: {
     }
 
     const content = result.messages[result.messages.length - 1].content as unknown as Block[];
-    const uses = toolUsesOf(content);
+    let uses;
+    try {
+      uses = toolUsesOf(content);
+    } catch (error) {
+      // The browser could not send this turn back next time, so do not hand it over at all.
+      if (error instanceof TranscriptError) {
+        throw new PipelineError("The model returned a reply this app cannot store. Try again.");
+      }
+      throw error;
+    }
     current.assistant.push(content);
     reply += `${reply ? " " : ""}${textOf(content)}`;
 
