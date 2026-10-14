@@ -258,7 +258,13 @@ export async function runTurn(args: {
       throw new PipelineError("The reply was cut off before it finished. Try again.");
     }
 
-    const content = result.messages[result.messages.length - 1].content as unknown as Block[];
+    // The helper appends the model's reply, unmodified, as the last message. Blocks are then
+    // picked out by type (toolUsesOf, textOf), never by position.
+    const last = result.messages.at(-1);
+    if (last?.role !== "assistant" || !Array.isArray(last.content)) {
+      throw new PipelineError("The model returned no reply. Try again.");
+    }
+    const content = last.content as unknown as Block[];
     let uses;
     try {
       uses = toolUsesOf(content);
