@@ -10,9 +10,11 @@
  *       { "name": "hero", "path": "/", "theme": "light", "viewport": "desktop",
  *         "actions": [{ "click": "text=Run" }, { "waitFor": "#result" }, { "wait": 400 }] }
  *     ],
- *     "gif": { "path": "/", "theme": "dark", "actions": [ ... ] }
+ *     "gif": { "path": "/", "theme": "dark", "fps": 12, "width": 800, "actions": [ ... ] }
  *   }
  * Actions: click, fill ([selector, text]), press, hover, waitFor (selector), wait (ms), scroll (px).
+ * Optional top-level "initScripts": files injected into every page before it loads
+ * (this repo uses scripts/fake-voice.js, because headless Chromium has no audio).
  * Output goes to docs/<name>.png and docs/demo.gif. The GIF needs ffmpeg on PATH.
  */
 import { execFileSync, spawn } from "node:child_process";
@@ -79,6 +81,7 @@ async function open(browser, spec, extra = {}) {
       localStorage.setItem("theme", t);
     } catch {}
   }, theme);
+  for (const script of config.initScripts ?? []) await context.addInitScript({ path: script });
   const page = await context.newPage();
   await page.goto(base + (spec.path ?? "/"), { waitUntil: "networkidle" });
   return { context, page, viewport };
@@ -116,7 +119,7 @@ try {
           "-i",
           video,
           "-vf",
-          "fps=12,scale=800:-1:flags=lanczos,split[a][b];[a]palettegen=max_colors=128[p];[b][p]paletteuse=dither=bayer",
+          `fps=${config.gif.fps ?? 12},scale=${config.gif.width ?? 800}:-1:flags=lanczos,split[a][b];[a]palettegen=max_colors=128[p];[b][p]paletteuse=dither=bayer`,
           gif,
         ],
         { stdio: "ignore" },
