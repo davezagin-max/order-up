@@ -41,7 +41,7 @@ function ReceiptNote({ receipt }: { receipt: Receipt }) {
         Order {receipt.orderNumber} placed for {receipt.pickupName}
       </p>
       <p className="mt-0.5 text-muted">
-        Ready in about {receipt.readyInMinutes} minutes, according to the order engine. This is a
+        Ready in about {receipt.readyInMinutes} minutes, according to the order code. This is a
         demo: no payment was taken and nothing is being cooked.
       </p>
     </div>
@@ -64,7 +64,7 @@ export function CartPanel({ snapshot }: { snapshot: CallSnapshot }) {
     >
       <div className="mb-3 flex items-baseline justify-between gap-3">
         <h2 id="order-heading" className="text-base font-semibold">
-          {receipt ? "Receipt" : "Order"}
+          {receipt ? "Receipt" : "Cart"}
         </h2>
         <p className="text-sm text-muted">
           {cart.pickupName ? `For ${cart.pickupName}` : "No pickup name yet"}
@@ -78,10 +78,10 @@ export function CartPanel({ snapshot }: { snapshot: CallSnapshot }) {
       )}
 
       {cart.lines.length === 0 ? (
-        <p className="rounded-lg border border-dashed border-border px-3 py-6 text-center text-sm text-muted">
-          Nothing rung up yet. Lines appear here the moment the agent&apos;s tool call passes the
-          order engine.
-        </p>
+        <div className="rounded-lg border border-dashed border-border px-4 py-6 text-center text-sm leading-6 text-muted">
+          <p className="font-medium text-fg">Your cart is empty</p>
+          <p className="text-balance">Items appear here as the AI cashier adds them.</p>
+        </div>
       ) : (
         <ul className="mb-3 flex flex-col">
           {cart.lines.map((line) => (
@@ -101,7 +101,7 @@ export function CartPanel({ snapshot }: { snapshot: CallSnapshot }) {
               )}
               {line.issue && (
                 <p className="mt-0.5 text-xs font-medium text-danger">
-                  Cannot be made: {line.issue}. The register will not confirm until it is changed.
+                  Cannot be made: {line.issue}. The order cannot be placed until this changes.
                 </p>
               )}
             </li>
@@ -112,18 +112,21 @@ export function CartPanel({ snapshot }: { snapshot: CallSnapshot }) {
       {cart.lines.length > 0 && <Totals cart={cart} />}
 
       <div className="mt-4 hidden lg:block">
-        <h3 className="mb-1 text-xs font-medium tracking-wide text-muted uppercase">
-          Register tape: every tool call
+        <h3 className="text-xs font-medium tracking-wide text-muted uppercase">
+          Behind the scenes
         </h3>
+        <p className="mb-1.5 text-xs leading-5 text-muted">
+          Each action the AI asked for, and whether the order code allowed it.
+        </p>
         <div
           ref={tapeRef}
           role="log"
-          aria-label="Tool calls"
+          aria-label="Actions the AI asked for"
           tabIndex={0}
           className="max-h-64 overflow-y-auto rounded-lg border border-border bg-bg p-1.5"
         >
           {log.length === 0 ? (
-            <p className="px-1.5 py-1 font-mono text-xs text-muted">no calls yet</p>
+            <p className="px-1.5 py-1 font-mono text-xs text-muted">nothing yet</p>
           ) : (
             log.map((entry, index) => (
               <div key={entry.id}>
@@ -136,9 +139,9 @@ export function CartPanel({ snapshot }: { snapshot: CallSnapshot }) {
       </div>
 
       <p className="mt-3 text-xs leading-5 text-muted">
-        Every price here is computed by the order engine from the menu. The agent can add, change,
-        and remove menu items, set a name, read back, and confirm. It has no tool that sets a price
-        or applies a discount.
+        Prices come from code, never from the AI. The AI can only add, change, or remove menu items,
+        set a pickup name, read the order back, and place it. It has no way to set a price or give a
+        discount.
       </p>
     </section>
   );

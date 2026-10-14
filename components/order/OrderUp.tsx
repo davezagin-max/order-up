@@ -96,8 +96,11 @@ export function OrderUp({ placeholder }: { placeholder: boolean }) {
           </span>
           <div className="min-w-0">
             <h1 className="text-base leading-5 font-semibold whitespace-nowrap">Order Up</h1>
-            <p className="hidden truncate text-xs text-muted sm:block">
-              Voice ordering at {CAFE.name}, a fictional cafe
+            <p className="truncate text-xs text-muted">
+              <span className="sm:hidden">AI voice cashier</span>
+              <span className="hidden sm:inline">
+                Talk to a cafe&apos;s AI cashier. It answers out loud and fills your cart.
+              </span>
             </p>
           </div>
         </div>
@@ -145,8 +148,8 @@ export function OrderUp({ placeholder }: { placeholder: boolean }) {
           <span className="inline-flex items-center gap-2 font-medium">
             <BagIcon className="size-4 text-accent" />
             {cart.itemCount === 0
-              ? "Order is empty"
-              : `${cart.itemCount} ${cart.itemCount === 1 ? "item" : "items"}`}
+              ? "Cart is empty"
+              : `${cart.itemCount} ${cart.itemCount === 1 ? "item" : "items"} in cart`}
             {snapshot.receipt && <span className="text-success">· placed</span>}
           </span>
           <span className="inline-flex items-center gap-2">
@@ -168,7 +171,7 @@ export function OrderUp({ placeholder }: { placeholder: boolean }) {
           <div className="flex-1 px-4 py-5 sm:px-6 lg:min-h-0 lg:overflow-y-auto lg:py-6">
             <Conversation
               snapshot={snapshot}
-              placeholder={placeholder}
+              canSpeak={support?.synthesis ?? true}
               isLive={isLive}
               onPlay={play}
             />
@@ -214,7 +217,7 @@ export function OrderUp({ placeholder }: { placeholder: boolean }) {
         <aside
           ref={panelRef}
           id="order-panels"
-          aria-label="Order, kitchen, and turn timeline"
+          aria-label="Cart, kitchen, and response timing"
           className={`min-w-0 scroll-mt-12 flex-col gap-4 border-border px-4 py-4 lg:flex lg:min-h-0 lg:overflow-y-auto lg:border-l lg:py-6 lg:pr-6 lg:pl-5 ${
             panelOpen ? "flex" : "hidden"
           }`}

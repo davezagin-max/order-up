@@ -111,3 +111,28 @@ export function SendIcon({ className }: IconProps) {
     </svg>
   );
 }
+
+export function SpeechIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path d="M4.5 6.5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H11l-4.500 3.500v-3.500h0a2 2 0 0 1-2-2v-8ZM8.500 9.500h7M8.500 12.500h4.500" />
+    </svg>
+  );
+}
+
+export function ShieldIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path d="M12 3.5 5 6v5.500c0 4.200 2.900 7.600 7 9 4.100-1.400 7-4.800 7-9V6l-7-2.500Z" />
+      <path d="m9 12 2.200 2.200L15.500 10" />
+    </svg>
+  );
+}
+
+export function ArrowIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path d="M5 12h14M13.500 6.500 19 12l-5.500 5.500" />
+    </svg>
+  );
+}

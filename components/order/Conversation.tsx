@@ -1,15 +1,23 @@
 "use client";
 
-import { CAFE } from "@/lib/menu";
+import { Fragment } from "react";
 import { SAMPLES } from "@/lib/samples";
 import type { CallSnapshot, Caption } from "@/lib/voice/session";
-import { PlayIcon } from "./icons";
+import {
+  ArrowIcon,
+  MicIcon,
+  PlayIcon,
+  ShieldIcon,
+  SoundOffIcon,
+  SoundOnIcon,
+  SpeechIcon,
+} from "./icons";
 import { PlanCard, TapeLine } from "./Tape";
 
 interface ConversationProps {
   snapshot: CallSnapshot;
-  /** True while the sample calls are hand-written examples rather than recorded runs. */
-  placeholder: boolean;
+  /** The browser has speech synthesis (assumed true until it is known). */
+  canSpeak: boolean;
   isLive: boolean;
   onPlay: (sampleId: string) => void;
 }
@@ -17,7 +25,7 @@ interface ConversationProps {
 function AgentCaption({ caption }: { caption: Extract<Caption, { role: "agent" }> }) {
   return (
     <div className="max-w-[46rem]">
-      <p className="mb-1 text-xs font-medium tracking-wide text-muted uppercase">{CAFE.name}</p>
+      <p className="mb-1 text-xs font-medium tracking-wide text-accent uppercase">AI cashier</p>
       <p className="text-xl leading-8 text-balance sm:text-2xl sm:leading-9">
         {caption.sentences.map((sentence) => (
           <span
@@ -51,7 +59,7 @@ function CustomerCaption({ caption }: { caption: Extract<Caption, { role: "custo
     >
       <p className="mb-0.5 flex items-center gap-2 text-xs font-medium tracking-wide text-muted uppercase">
         {caption.scripted
-          ? "Customer (scripted)"
+          ? "Customer (sample script)"
           : caption.unanswered
             ? "You (not answered)"
             : "You"}
@@ -76,7 +84,7 @@ function KitchenCaption({
 }) {
   return (
     <div className="rounded-lg border border-dashed border-border px-3 py-2 text-sm">
-      <p className="text-xs font-medium tracking-wide text-muted uppercase">Kitchen</p>
+      <p className="text-xs font-medium tracking-wide text-muted uppercase">Kitchen update</p>
       {caption.effects.map((effect) => (
         <p key={effect.id} className="mt-0.5">
           <span className="font-medium">
@@ -88,8 +96,8 @@ function KitchenCaption({
               ? `It is in this order (${effect.affected.map((line) => line.name).join(", ")}). `
               : ""}
             {handWritten
-              ? "In a live call the agent is told in a system message the server writes."
-              : "The agent was told in a system message the server wrote."}
+              ? "In a live call the app tells the AI cashier, and it has to cope."
+              : "The app told the AI cashier, and it has to cope."}
           </span>
         </p>
       ))}
@@ -97,47 +105,91 @@ function KitchenCaption({
   );
 }
 
-function Welcome({ placeholder, isLive, onPlay }: Omit<ConversationProps, "snapshot">) {
+const STEPS = [
+  { icon: MicIcon, text: "You say (or type) what you want" },
+  { icon: SpeechIcon, text: "The AI cashier answers out loud and picks items from the menu" },
+  { icon: ShieldIcon, text: "Code checks every item and sets every price" },
+];
+
+function Welcome({
+  canSpeak,
+  soundOn,
+  isLive,
+  onPlay,
+}: Omit<ConversationProps, "snapshot"> & { soundOn: boolean }) {
   const [first, ...others] = SAMPLES;
+  const audible = canSpeak && soundOn;
   return (
-    <div className="flex flex-col gap-4 sm:py-1">
-      {/* On a phone the button comes straight after the headline, so it is on the first screen. */}
-      <h2 className="text-[1.7rem] leading-9 font-semibold tracking-tight text-balance sm:text-4xl sm:leading-tight">
-        Order at the counter, out loud.
-      </h2>
-      <p className="order-2 max-w-xl text-base leading-7 text-muted sm:order-none">
-        A voice agent takes your order at {CAFE.name}. It answers out loud, you can interrupt it or
-        change your mind, and the cart fills in as you speak. Code owns every item and every price.
-      </p>
-      <div className="order-1 flex flex-col items-start gap-3 sm:order-none">
+    <div className="flex flex-col gap-5 sm:gap-6 sm:py-1">
+      <div className="flex flex-col gap-2">
+        <h2 className="text-[1.7rem] leading-9 font-semibold tracking-tight text-balance sm:text-4xl sm:leading-tight">
+          Talk to a cafe&apos;s AI cashier.
+        </h2>
+        <p className="max-w-xl text-lg leading-7 text-balance text-muted sm:text-xl sm:leading-8">
+          It answers out loud and fills your cart as you order.
+        </p>
+      </div>
+
+      <div className="flex flex-col items-start gap-2.5">
         <button
           type="button"
           onClick={() => onPlay(first.id)}
-          className="inline-flex items-center gap-2.5 rounded-lg bg-accent px-5 py-3 text-base font-semibold text-accent-fg shadow-[0_0_24px_var(--glow)] hover:opacity-90"
+          className="inline-flex items-center gap-2.5 rounded-lg bg-accent px-6 py-3.5 text-lg font-semibold text-accent-fg shadow-[0_0_24px_var(--glow)] hover:opacity-90"
         >
-          <PlayIcon className="size-4" />
+          <PlayIcon className="size-5" />
           Play a sample call
         </button>
-        <p className="text-sm leading-6 text-muted">
-          {placeholder
-            ? "Plays with sound. The agent's side of each sample call is a hand-written example; every price in it comes from the real order engine."
-            : "Plays with sound. The sample calls are recorded runs of the real agent."}{" "}
-          {isLive ? "Or tap the microphone and order yourself." : "No key needed."}
+        <p className="flex items-start gap-2 text-sm leading-6 text-muted">
+          {audible ? (
+            <SoundOnIcon className="mt-1 size-4 shrink-0 text-accent" />
+          ) : (
+            <SoundOffIcon className="mt-1 size-4 shrink-0" />
+          )}
+          <span>
+            {audible
+              ? "Plays out loud, so turn your sound up. Every word also appears on screen."
+              : canSpeak
+                ? "Sound is off, so the call plays as on-screen captions. Turn it on at the top."
+                : "This browser cannot speak, so the call plays as on-screen captions."}{" "}
+            {isLive ? "Or tap the microphone and order yourself." : "No key or sign-up needed."}
+          </span>
         </p>
       </div>
-      <div className="order-3 sm:order-none">
-        <p className="mb-2 text-xs font-medium tracking-wide text-muted uppercase">
-          More sample calls
-        </p>
+
+      <div>
+        <h3 className="mb-2 text-xs font-medium tracking-wide text-muted uppercase">
+          How it works
+        </h3>
+        <ol className="grid gap-2 sm:grid-cols-[1fr_auto_1fr_auto_1fr] sm:items-stretch">
+          {STEPS.map((step, index) => (
+            <Fragment key={step.text}>
+              {index > 0 && (
+                <li aria-hidden className="hidden items-center text-muted sm:flex">
+                  <ArrowIcon className="size-4" />
+                </li>
+              )}
+              <li className="flex items-start gap-2.5 text-sm leading-5">
+                <step.icon className="mt-px size-4 shrink-0 text-accent" />
+                <span>{step.text}</span>
+              </li>
+            </Fragment>
+          ))}
+        </ol>
+      </div>
+
+      <div>
+        <h3 className="mb-2 text-xs font-medium tracking-wide text-muted uppercase">
+          Two more sample calls
+        </h3>
         <ul className="grid gap-2 sm:grid-cols-2">
           {others.map((sample) => (
             <li key={sample.id}>
               <button
                 type="button"
                 onClick={() => onPlay(sample.id)}
-                className="flex h-full w-full items-start gap-3 rounded-lg border border-border bg-surface px-3.5 py-2.5 text-left hover:border-accent"
+                className="flex h-full w-full items-start gap-3 rounded-lg border border-border px-3.5 py-2.5 text-left hover:border-accent hover:bg-surface"
               >
-                <PlayIcon className="mt-1 size-3.5 shrink-0 text-accent" />
+                <PlayIcon className="mt-1 size-3.5 shrink-0 text-muted" />
                 <span className="min-w-0">
                   <span className="block text-sm font-medium">{sample.title}</span>
                   <span className="mt-0.5 block text-sm text-muted">{sample.shows}</span>
@@ -151,7 +203,7 @@ function Welcome({ placeholder, isLive, onPlay }: Omit<ConversationProps, "snaps
   );
 }
 
-export function Conversation({ snapshot, placeholder, isLive, onPlay }: ConversationProps) {
+export function Conversation({ snapshot, canSpeak, isLive, onPlay }: ConversationProps) {
   const { captions, planning, interim, phase } = snapshot;
   // "vegetarian, vegetarian, gluten-free" reads better as "2 vegetarian, 1 gluten-free".
   const needCounts = new Map<string, number>();
@@ -159,7 +211,9 @@ export function Conversation({ snapshot, placeholder, isLive, onPlay }: Conversa
   const needs = [...needCounts].map(([need, count]) => `${count} ${need}`);
 
   if (captions.length === 0 && phase === "idle" && !snapshot.sample) {
-    return <Welcome placeholder={placeholder} isLive={isLive} onPlay={onPlay} />;
+    return (
+      <Welcome canSpeak={canSpeak} soundOn={snapshot.soundOn} isLive={isLive} onPlay={onPlay} />
+    );
   }
 
   return (
@@ -202,14 +256,14 @@ export function Conversation({ snapshot, placeholder, isLive, onPlay }: Conversa
           <p>
             <span className="font-medium">
               {snapshot.handWritten
-                ? "Planning the group order. In a live call this step is one request to Claude Opus 5.5."
-                : "Claude Opus 5.5 is planning the group order."}
+                ? "Planning the group order. In a live call a stronger AI model (Claude Opus 5.5) does this step."
+                : "A stronger AI model (Claude Opus 5.5) is planning the group order."}
             </span>{" "}
             <span className="text-muted">
               {planning.people} people
               {planning.budget ? `, ${planning.budget} with tax` : ""}
-              {needs.length > 0 ? `, ${needs.join(", ")}` : ""}. The order engine checks and prices
-              the plan before the agent may offer it.
+              {needs.length > 0 ? `, ${needs.join(", ")}` : ""}. Code checks and prices the plan
+              before the cashier may offer it.
             </span>
           </p>
         </div>

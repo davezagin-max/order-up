@@ -6,6 +6,7 @@ import { CALL_LIMITS } from "@/lib/order/history";
 import type { SpeechSupport } from "@/lib/speech/web";
 import type { CallSession, CallSnapshot } from "@/lib/voice/session";
 import { LockIcon, MicIcon, PlayIcon, SendIcon, SkipIcon, StopIcon } from "./icons";
+import { narrate } from "./narration";
 
 interface MicDockProps {
   session: CallSession;
@@ -40,23 +41,19 @@ function micCopy(args: { snapshot: CallSnapshot; isLive: boolean; canListen: boo
   const fromSample = snapshot.origin === "sample";
   if (snapshot.sample) {
     const { turn, of } = snapshot.sample;
-    const what =
-      snapshot.phase === "listening"
-        ? "The customer is talking"
-        : snapshot.phase === "thinking"
-          ? "The agent is working"
-          : snapshot.phase === "speaking"
-            ? "The agent is answering"
-            : "Next turn";
-    return { label: `Sample call, turn ${turn} of ${of}`, hint: what };
+    return { label: `Sample call · turn ${turn} of ${of}`, hint: narrate(snapshot) };
   }
   if (!isLive) {
     if (snapshot.finished)
-      return { label: "Sample call finished", hint: "That was the whole call." };
+      return {
+        label: "Sample call finished",
+        hint: "That was the whole call.",
+        more: " Play it again or try another one.",
+      };
     return {
-      label: "Voice needs a key",
-      hint: "Sample calls play without one.",
-      more: " Talking and typing use your own Anthropic key.",
+      label: "Order yourself",
+      hint: "Talk or type. Needs your Anthropic API key.",
+      more: " The sample calls play without one.",
     };
   }
   if (snapshot.receipt && !fromSample) {
@@ -85,6 +82,48 @@ function micCopy(args: { snapshot: CallSnapshot; isLive: boolean; canListen: boo
     };
   }
   return { label: "Tap to talk", hint: "Or hold Space.", more: " You can also type below." };
+}
+
+/** What the microphone does with your voice, in plain words. Always available, never buried. */
+function MicPrivacy({
+  support,
+  audioFailed,
+}: {
+  support: SpeechSupport | null;
+  audioFailed: boolean;
+}) {
+  const browser =
+    support === null
+      ? null
+      : support.recognition
+        ? support.synthesis
+          ? audioFailed
+            ? "This browser can listen, but its voice is not making sound, so replies are captions only."
+            : null
+          : "This browser can listen but cannot speak, so replies are captions only."
+        : support.synthesis
+          ? "This browser cannot listen, so type instead. Replies are still spoken."
+          : "This browser can neither listen nor speak, so type and read the captions.";
+  const how = (
+    <>
+      Your browser turns your speech into text (Chrome and Safari may send the audio to Google or
+      Apple to do that). This app never receives audio, only that text, which goes to Claude with
+      your own key. You can always type instead.
+    </>
+  );
+  return (
+    <div className="text-xs leading-5 text-muted">
+      {browser && <p className="mb-1 font-medium text-fg">{browser}</p>}
+      <p className="hidden sm:block">
+        <span className="font-medium text-fg">How the microphone works: </span>
+        {how}
+      </p>
+      <details className="sm:hidden">
+        <summary className="cursor-pointer font-medium text-fg">How the microphone works</summary>
+        <p className="mt-1">{how}</p>
+      </details>
+    </div>
+  );
 }
 
 export function MicDock({ session, snapshot, support, isLive, onAddKey, onPlay }: MicDockProps) {
@@ -117,7 +156,7 @@ export function MicDock({ session, snapshot, support, isLive, onAddKey, onPlay }
   const active = phase !== "idle";
   const replayId = snapshot.finished ?? snapshot.sampleId ?? "quick";
   const micLabel = locked
-    ? "Add your Anthropic key to talk"
+    ? "Microphone: add your Anthropic API key to talk"
     : phase === "listening"
       ? "Stop listening and send"
       : busy
@@ -251,7 +290,7 @@ export function MicDock({ session, snapshot, support, isLive, onAddKey, onPlay }
                 ? "This order is placed"
                 : isLive
                   ? "Or type it: two chicken burritos and a horchata"
-                  : "Typing needs a key too"
+                  : "Or type it (needs a key)"
             }
             className="min-w-0 flex-1 rounded-lg border border-border bg-bg px-3.5 py-2.5 text-base placeholder:text-muted disabled:bg-surface disabled:text-muted"
           />
@@ -271,24 +310,7 @@ export function MicDock({ session, snapshot, support, isLive, onAddKey, onPlay }
         <CostMeter meta={snapshot.timeline.meta} />
       )}
 
-      <p className="text-xs leading-5 text-muted">
-        {support !== null && (
-          <span className={support.recognition && support.synthesis ? "hidden sm:inline" : ""}>
-            {support.recognition
-              ? support.synthesis
-                ? snapshot.audioFailed
-                  ? "This browser can listen, but its voice is not producing sound, so replies are captions only. "
-                  : "This browser can listen and speak. "
-                : "This browser can listen but cannot speak, so replies are captions only. "
-              : support.synthesis
-                ? "This browser can speak but has no speech recognition, so type instead. "
-                : "This browser can neither listen nor speak, so type and read the captions. "}
-          </span>
-        )}
-        Your browser does the listening, and in Chrome and Safari it may send audio to the browser
-        maker&apos;s speech service. Audio never reaches this app&apos;s server; only the recognized
-        text goes to Claude, with your own key.
-      </p>
+      <MicPrivacy support={support} audioFailed={snapshot.audioFailed} />
     </div>
   );
 }

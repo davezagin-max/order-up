@@ -67,27 +67,27 @@ export function KitchenPanel({ session, snapshot, isLive }: KitchenPanelProps) {
     >
       <div className="mb-1 flex items-baseline justify-between gap-3">
         <h2 id="kitchen-heading" className="text-base font-semibold">
-          Kitchen
+          Kitchen <span className="font-normal text-muted">(staff side)</span>
         </h2>
         <p className="text-sm text-muted">
-          {out.size === 0 ? "Everything in stock" : `${out.size} out of stock`}
+          {out.size === 0 ? "Everything in stock" : `${out.size} sold out`}
         </p>
       </div>
       <p className="mb-3 text-xs leading-5 text-muted">
         {snapshot.sample
-          ? "In a sample call the script plays the staff. Watch what runs out."
+          ? "In a sample call the script plays the staff. Watch what sells out."
           : isLive
-            ? "You are the staff. Mark something out of stock mid-call and the agent is told on the next turn, in a system message the server writes."
-            : "With a key, you play the staff: mark something out of stock mid-call and the agent has to deal with it."}
+            ? "You play the staff: tap an item to mark it sold out mid-call. The AI cashier hears about it with your next words."
+            : "Staff controls: mark an item sold out mid-call and the AI cashier has to cope. The second sample call shows it; with a key, you can try it."}
       </p>
       <div className="flex flex-col gap-3">
         {group("Proteins", PROTEINS)}
-        {group("Breakfast fillings and extras", [...FILLINGS, ...EXTRAS])}
         <details className="group">
           <summary className="cursor-pointer text-xs font-medium tracking-wide text-muted uppercase hover:text-fg">
             The rest of the menu
           </summary>
           <div className="mt-2 flex flex-col gap-3">
+            {group("Breakfast fillings and extras", [...FILLINGS, ...EXTRAS])}
             {CATEGORIES.map((category) => (
               <div key={category.id}>
                 <h3 className="mb-1.5 text-xs text-muted">{category.name}</h3>
@@ -107,7 +107,7 @@ export function KitchenPanel({ session, snapshot, isLive }: KitchenPanelProps) {
           {snapshot.pendingKitchen.length === 1
             ? "1 change"
             : `${snapshot.pendingKitchen.length} changes`}{" "}
-          queued. The agent hears about it with the customer&apos;s next words.
+          queued. The AI cashier hears about it with the customer&apos;s next words.
         </p>
       )}
     </section>

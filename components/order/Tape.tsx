@@ -14,7 +14,7 @@ export function TapeLine({ entry, fresh = false }: { entry: LogEntry; fresh?: bo
         className={`mt-0.5 inline-flex size-4 shrink-0 items-center justify-center ${entry.ok ? "text-success" : "text-danger"}`}
       >
         {entry.ok ? <CheckIcon className="size-3.5" /> : <CrossIcon className="size-3.5" />}
-        <span className="sr-only">{entry.ok ? "Done:" : "Refused by the register:"}</span>
+        <span className="sr-only">{entry.ok ? "Allowed:" : "Refused by the order code:"}</span>
       </span>
       <span className="min-w-0 [overflow-wrap:anywhere]">
         <span className={entry.ok ? "text-fg" : "text-danger"}>{verb}</span>
@@ -32,8 +32,8 @@ export function PlanCard({ entry, handWritten }: { entry: LogEntry; handWritten:
     <div className="my-1 rounded-md border border-border bg-bg p-2.5 text-xs">
       <p className="font-medium">
         {handWritten
-          ? `Plan ${plan.planId}: a hand-written stand-in for the planner's proposal, checked and priced by the order engine`
-          : `Plan ${plan.planId}: proposed by Claude Opus 5.5, checked and priced by the order engine`}
+          ? `Group plan ${plan.planId}: a pre-written stand-in for the planner AI's suggestion, checked and priced by code`
+          : `Group plan ${plan.planId}: suggested by a stronger AI model (Claude Opus 5.5), checked and priced by code`}
       </p>
       <ul className="mt-1.5 flex flex-col gap-0.5 font-mono">
         {plan.lines.map((line, index) => (
