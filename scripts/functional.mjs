@@ -196,7 +196,10 @@ async function openPage(browser, combo, { voice = true, stub = null, allowHttp =
     }
     return stub(route);
   });
-  await page.goto(`${BASE}/`, { waitUntil: "networkidle" });
+  // Wait for the page to be usable rather than for a fully quiet network: a stalled request
+  // elsewhere on the machine must not fail a check of the page itself.
+  await page.goto(`${BASE}/`, { waitUntil: "load" });
+  await page.locator("h1").first().waitFor({ state: "visible", timeout: 30_000 });
   return {
     page,
     keyed,
